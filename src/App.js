@@ -13,12 +13,12 @@ import { Subject } from 'rxjs';
 } from "rxjs/operators";
 // 通过懒加载导入各个模块
 const Scene = lazy(() => import('./pages/Scene'));
-
+const Video = lazy(() => import('./pages/Video'));
+const Global = lazy(() => import('./pages/Global'));
 
 // 创建并暴露App组件
 
 export default class App extends Component{
-
 
   state = {
     isRouter: false
@@ -66,6 +66,8 @@ export default class App extends Component{
       router = <div>
                 <Redirect to="/scene"></Redirect>
                 <Route path="/scene" component = {Scene}/>
+                <Route path="/video" component = {Video}/>
+                <Route path="/global" component = {Global}/>
               </div>
     }
 
