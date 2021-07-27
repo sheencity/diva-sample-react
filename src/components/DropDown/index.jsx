@@ -34,6 +34,9 @@ export default class ContentBlock extends Component {
         this.setState({
             hideOptions: true,
         })
+        if(this.props.type){
+            option.type = this.props.type.title;
+        }
         this.initvalue = option;
         this.props.select(option);
     }

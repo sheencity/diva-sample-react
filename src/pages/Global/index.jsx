@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import './index.scss'
 import {
-  diva
+  diva, data
 } from '../../global';
-import {
-  DataService
-} from "../../services/data.service"
 import { MovementMode } from '@sheencity/diva-sdk';
 import ContentBlock from '../../components/ContentBlock'
 import DropDown from '../../components/DropDown'
@@ -26,14 +23,13 @@ export default class index extends Component {
     value: "false",
     placeholder: "飞行",
   }
-  data = new DataService()
 
   select = (v) => {
     diva.client.setMovementMode(
       // eslint-disable-next-line eqeqeq
       v.value == "true" ? MovementMode.ThirdPerson : MovementMode.Fly
     );
-    this.data.changeCode(
+    data.changeCode(
       `client.setMovementMode(${
       // eslint-disable-next-line eqeqeq
       v.value == "true" ? "MovementMode.ThirdPerson" : "MovementMode.Fly"
@@ -44,15 +40,15 @@ export default class index extends Component {
   swit = (v) => {
     this.compass = v;
     diva.client.setCompass(v);
-    this.data.changeCode(`client.setCompass(${v})`);
+    data.changeCode(`client.setCompass(${v})`);
   }
   async componentDidMount() {
     await diva.client.applyScene("全局配置");
-    this.compass = this.data.compass;
+    this.compass = data.compass;
     diva.client.setCompass(this.compass);
-    this.data.changeCode(`client.setCompass(${this.compass})`);
+    data.changeCode(`client.setCompass(${this.compass})`);
     setTimeout(() => {
-      this.data.changeCode(`client.applyScene('全局配置')`);
+      data.changeCode(`client.applyScene('全局配置')`);
     }, 0);
   }
   componentWillUnmount() {
@@ -106,7 +102,7 @@ export default class index extends Component {
               </div>
             </div>
             <div className="switch-item">
-              <Switcher label="罗盘" switch={(checked) => { this.swit(checked) }} />
+              <Switcher label="罗盘" switch={(checked) => this.swit(checked) }/>
             </div>
           </div>
         </div >

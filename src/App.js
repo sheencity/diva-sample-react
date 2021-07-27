@@ -1,6 +1,6 @@
 import React,{Component, Suspense, lazy} from 'react';
 import {BrowserRouter} from 'react-router-dom'
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import './App.scss'
 import Header from "./components/Header";
 import Nan from "./components/Nan";
@@ -11,11 +11,16 @@ import { Subject } from 'rxjs';
  import {
   debounceTime
 } from "rxjs/operators";
+
 // 通过懒加载导入各个模块
 const Scene = lazy(() => import('./pages/Scene'));
 const Video = lazy(() => import('./pages/Video'));
 const Global = lazy(() => import('./pages/Global'));
-
+const Weather = lazy(() => import('./pages/Weather'));
+const Date = lazy(() => import('./pages/Date'));
+const Floor = lazy(() => import('./pages/Floor'));
+const State = lazy(() => import('./pages/State'));
+const AirConditioner = lazy(() => import('./pages/AirConditioner'));
 // 创建并暴露App组件
 
 export default class App extends Component{
@@ -64,10 +69,15 @@ export default class App extends Component{
     let router = null;
     if(this.state.isRouter){
       router = <div>
-                <Redirect to="/scene"></Redirect>
+                {/* <Redirect to="/scene"></Redirect> */}
                 <Route path="/scene" component = {Scene}/>
                 <Route path="/video" component = {Video}/>
                 <Route path="/global" component = {Global}/>
+                <Route path="/weather" component = {Weather}/>
+                <Route path="/floor" component = {Floor}/>
+                <Route path="/date" component = {Date}/>
+                <Route path="/state" component = {State}/>
+                <Route path="/airconditioner" component = {AirConditioner}/>
               </div>
     }
 
