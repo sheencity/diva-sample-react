@@ -84,12 +84,18 @@ export default class index extends Component {
   }
 
   onDateChange = (event) => {
+    this.setState({
+      date: event.target.value
+    })
     const date = new Date(event.target.value);
     diva.client.setDate(date);
     data.changeCode(`client.setDate(new Date('${date}'))`);
   }
 
   onTimeChange = (event) => {
+    this.setState({
+      time: event.target.value
+    })
     const time = new Date();
     const timers = [...(event.target.value.split(":").map((val) => parseInt(val, 10)))];
     time.setHours(

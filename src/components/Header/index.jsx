@@ -1,6 +1,17 @@
 import React, { Component } from 'react'
+import Switcher from '../Switcher';
 import './index.scss';
 export default class Header extends Component {
+    state = {
+        exampleCode: false
+    }
+    swit = (checked)=>{
+        this.setState({
+            exampleCode: checked
+        })
+        this.props.getExampleCode(checked)
+    }
+
     render() {
         return (
             <div className="header">
@@ -10,6 +21,7 @@ export default class Header extends Component {
                 </div>
                 <div className="info">
                     <div className="exampleCode">
+                        <Switcher checked={this.state.checked} label="显示示例代码" switch={(checked) => this.swit(checked) }/>
                     </div>
                 </div>
             </div>

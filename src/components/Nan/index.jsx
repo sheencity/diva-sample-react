@@ -18,6 +18,7 @@ export default class Nan extends Component {
                 <NavLink activeClassName="selected" to="/monitor" className="nav-block" ><span>监控设备</span></NavLink>
                 <NavLink activeClassName="selected" to="/lamp" className="nav-block" ><span>灯光控制</span></NavLink>
                 <NavLink activeClassName="selected" to="/airConditioner" className="nav-block" ><span>高级定制</span></NavLink>
+                <NavLink activeClassName="selected" to="/customize" className="nav-block" ><span>高级定制</span></NavLink>
               </div>
             </div>
           </div>
