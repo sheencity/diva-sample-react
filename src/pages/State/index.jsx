@@ -93,7 +93,7 @@ export default class index extends Component {
     };
   }
 
-  onChange = async (equi,equipment) => {
+  onChange = async (equi, equipment) => {
     const [model] = await diva.client.getEntitiesByName(equipment.title);
     if (!model) return;
     const type = equi.value;
@@ -117,17 +117,16 @@ export default class index extends Component {
   render() {
     this.equipments = this.equipments.map((equipment) => this.addSelected(equipment))
     const equipmentArr = this.equipments.map((equipment, i) => {
-    return (
-      <div key={equipment.title} className="drop-block">
-        <div className={['drop-item', this.state.selected === i ? 'selected' : null].join(' ')}>
-          <span>{equipment.title}</span>
-          <div className="drop-down">
-            <DropDown options={this.options} initvalue={this.initial} disabled={false} select={(equi) => this.onChange(equi,equipment)} />
+      return (
+        <div key={equipment.title} className="drop-block">
+          <div className={['drop-item', this.state.selected === i ? 'selected' : null].join(' ')}>
+            <span>{equipment.title}</span>
+            <div className="drop-down">
+              <DropDown options={this.options} initvalue={this.initial} disabled={false} select={(equi) => this.onChange(equi, equipment)} />
+            </div>
           </div>
         </div>
-      </div>
-    )
-
+      )
     }
     )
 

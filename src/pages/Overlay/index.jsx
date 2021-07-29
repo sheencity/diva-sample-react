@@ -467,55 +467,55 @@ export default class index extends Component {
       </div>
     )
 
-    let Markertitle = null;
-    let Markeralign = null;
-    let MarkerborderColor = null;
-    let Markerborder = null;
+    let markerTitle = null;
+    let markerAlign = null;
+    let markerBorderColor = null;
+    let markerBorder = null;
     //判断是否为Marker类型
     if (this.state.selectedType.value === 'Marker') {
-      Markertitle = <div className="input-item">
+      markerTitle = <div className="input-item">
         <span>标题</span>
         <input onKeyDown={(event) => this.onKeyDown(event)} value={this.state.title} type="text" onChange={(event) => { this.setState({ title: event.target.value }) }} placeholder="请输入文字" />
       </div>
-      Markeralign = <div className="drop-item" style={{ marginTop: '12px' }} >
+      markerAlign = <div className="drop-item" style={{ marginTop: '12px' }} >
         <span>对齐方式</span>
         <div>
-          <DropDown key="Markeralign" options={this.state.alignOptions} initvalue={this.alignInitial} select={(select) => this.setSelectedAlign(select)} disabled={false} />
+          <DropDown key="markerAlign" options={this.state.alignOptions} initvalue={this.alignInitial} select={(select) => this.setSelectedAlign(select)} disabled={false} />
         </div>
       </div >
-      MarkerborderColor = <div className="input-item">
+      markerBorderColor = <div className="input-item">
         <span>边框颜色</span>
         <input value={this.state.borderColor} onChange={(event) => { this.setState({ borderColor: event.target.value }) }} type="color" />
       </div>
-      Markerborder = <div className="input-item">
+      markerBorder = <div className="input-item">
         <span>边框大小</span>
-        <InputNumber key="Markerborder" min={0} max={1} value={this.state.border} input={(value) => this.setState({ border: value })} />
+        <InputNumber key="markerBorder" min={0} max={1} value={this.state.border} input={(value) => this.setState({ border: value })} />
       </div >
     }
-    let emissiveOverlaycontent = null;
-    let emissiveOverlayoption = null;
-    let emissiveOverlayrotation = null;
-    let emissiveOverlayopacity = null;
-    let emissiveOverlayemission = null;
-    let emissiveOverlayspeed = null;
+    let emissiveOverlayContent = null;
+    let emissiveOverlayOption = null;
+    let emissiveOverlayRotation = null;
+    let emissiveOverlayOpacity = null;
+    let emissiveOverlayEmission = null;
+    let emissiveOverlaySpeed = null;
     //判断是否为emissiveOverlay类型
     if (this.state.selectedType.value !== 'emissiveOverlay') {
-      emissiveOverlaycontent = <div className="input-item" style={{ height: (this.state.selectedType.value === 'poi' ? '24px' : '48px') }}>
+      emissiveOverlayContent = <div className="input-item" style={{ height: (this.state.selectedType.value === 'poi' ? '24px' : '48px') }}>
         <span>内容</span>
         <textarea cols={4} onKeyDown={(event) => this.onKeyDown(event)} value={this.state.content} onChange={(event) => { this.setState({ content: event.target.value }) }} placeholder="请输入文字"></textarea>
       </div >
-      emissiveOverlayopacity = <div className="input-item">
+      emissiveOverlayOpacity = <div className="input-item">
         <span>不透明度</span>
-        <InputNumber key="emissiveOverlayopacity" min={0} max={100} value={this.state.opacity} input={(value) => this.setState({ opacity: value })} />
+        <InputNumber key="emissiveOverlayOpacity" min={0} max={100} value={this.state.opacity} input={(value) => this.setState({ opacity: value })} />
       </div >
     } else {
-      emissiveOverlayoption = <div className="drop-item" style={{ marginTop: '12px' }}>
+      emissiveOverlayOption = <div className="drop-item" style={{ marginTop: '12px' }}>
         <span>类型</span>
         <div>
-          <DropDown key="emissiveOverlayoption" options={this.state.emissiveOptions} initvalue={this.emissiveInitial} select={(select) => this.setSelectedEmissive(select)} disabled={false} />
+          <DropDown key="emissiveOverlayOption" options={this.state.emissiveOptions} initvalue={this.emissiveInitial} select={(select) => this.setSelectedEmissive(select)} disabled={false} />
         </div>
       </div >
-      emissiveOverlayrotation = <div className="input-item">
+      emissiveOverlayRotation = <div className="input-item">
         <span>旋转</span>
         <div className="coordinate-items">
           <div className="coordinate-item">
@@ -529,13 +529,13 @@ export default class index extends Component {
           </div>
         </div>
       </div>
-      emissiveOverlayemission = <div className="input-item">
+      emissiveOverlayEmission = <div className="input-item">
         <span>自发光强度</span>
-        <InputNumber key="emissiveOverlayemission" min={0} value={this.state.emission} input={(value) => this.setState({ emission: value })} />
+        <InputNumber key="emissiveOverlayEmission" min={0} value={this.state.emission} input={(value) => this.setState({ emission: value })} />
       </div >
-      emissiveOverlayspeed = <div className="input-item">
+      emissiveOverlaySpeed = <div className="input-item">
         <span>速度</span>
-        <InputNumber key="emissiveOverlayspeed" min={0} value={this.state.speed} input={(value) => this.setState({ speed: value })} />
+        <InputNumber key="emissiveOverlaySpeed" min={0} value={this.state.speed} input={(value) => this.setState({ speed: value })} />
       </div >
     }
     let iconOption = null;
@@ -581,27 +581,27 @@ export default class index extends Component {
               </div>
             </div>
           </div>
-          {Markertitle}
-          {emissiveOverlaycontent}
-          {Markeralign}
-          {emissiveOverlayoption}
+          {markerTitle}
+          {emissiveOverlayContent}
+          {markerAlign}
+          {emissiveOverlayOption}
           {iconOption}
           <div className="input-item">
             <span>颜色</span>
             <input value={this.state.color} onChange={(event) => { this.setState({ color: event.target.value }) }} type="color" />
           </div>
 
-          {emissiveOverlayrotation}
+          {emissiveOverlayRotation}
           <div className="input-item">
             <span>缩放</span>
             <InputNumber key="scale" min="0" max={100} value={this.state.scale} input={(value) => this.setState({ scale: value })} />
           </div >
-          {emissiveOverlayopacity}
-          {Markerborder}
+          {emissiveOverlayOpacity}
+          {markerBorder}
 
-          {MarkerborderColor}
-          {emissiveOverlayemission}
-          {emissiveOverlayspeed}
+          {markerBorderColor}
+          {emissiveOverlayEmission}
+          {emissiveOverlaySpeed}
 
           <div className="btn-item">
             <span></span>

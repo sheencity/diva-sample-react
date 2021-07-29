@@ -5,7 +5,7 @@ export default class ContentBlock extends Component {
         return (
             <div className="content-block-main">
                 <div className="title">
-                <span>{ this.props.caption }</span>
+                    <span>{this.props.caption}</span>
                 </div>
             </div>
         )

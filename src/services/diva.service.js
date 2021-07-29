@@ -1,6 +1,9 @@
 import { Diva } from '@sheencity/diva-sdk';
 export class DivaService {
   // divaClient
+   /**
+   * @type {import("@sheencity/diva-sdk").DivaClient}
+   */
   client;
 
 

@@ -102,7 +102,7 @@ export default class index extends Component {
               </div>
             </div>
             <div className="switch-item">
-              <Switcher label="罗盘" switch={(checked) => this.swit(checked) }/>
+              <Switcher label="罗盘" switch={(checked) => this.swit(checked)} />
             </div>
           </div>
         </div >

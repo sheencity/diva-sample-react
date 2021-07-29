@@ -4,25 +4,25 @@ import disabledSvg from '../../assets/arrow-down-disabled.svg'
 import arrowSvg from '../../assets/arrow-down.svg'
 
 export default class ContentBlock extends Component {
-    
+
     state = {
         hideOptions: true,
     }
     initvalue = this.props.initvalue;
-    onBlur = (event)=>{
+    onBlur = (event) => {
         event.stopPropagation();
         if (!this.state.hideOptions) {
-          setTimeout(() => {
-              this.setState({
-                hideOptions: true,
-              })
-          }, 200);
+            setTimeout(() => {
+                this.setState({
+                    hideOptions: true,
+                })
+            }, 200);
         }
     }
-    onKeyDown = (event)=>{
+    onKeyDown = (event) => {
         event.preventDefault()
     }
-    onClick = ()=>{
+    onClick = () => {
         if (this.props.disabled) {
             return;
         }
@@ -30,7 +30,7 @@ export default class ContentBlock extends Component {
             hideOptions: !this.state.hideOptions
         })
     }
-    menuClick = (option)=>{
+    menuClick = (option) => {
         this.setState({
             hideOptions: true,
         })
@@ -39,25 +39,25 @@ export default class ContentBlock extends Component {
     }
     render() {
         const { options } = this.props;
-        const liArr = options.map((option)=>(
+        const liArr = options.map((option) => (
             <li key={option.value} className="dropdown-item" title={option.placeholder}
-                onMouseDown={()=>this.menuClick(option)}>{option.placeholder}</li>
+                onMouseDown={() => this.menuClick(option)}>{option.placeholder}</li>
         ))
-        
+
 
         return (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a className="select">
-            <p className={this.props.disabled ? 'select-disabled' : null} style={{margin:0,userSelect: 'none'}}>
-              <input type="text" className="placeholder" disabled={this.props.disabled} value={this.initvalue.placeholder} readOnly
-                onBlur={this.onBlur} onKeyDown={this.onKeyDown} onClick={this.onClick} />
-              <img alt="" className={['arrow-down',this.state.hideOptions? null : 'activity'].join(' ')}  width={9} height={6}
-                src={this.props.disabled? disabledSvg : arrowSvg} />
-            </p>
-            <ul className="option" style={{height: (this.state.hideOptions ? '0px':'auto')}}>
-              {liArr}
-            </ul>
-          </a>
+                <p className={this.props.disabled ? 'select-disabled' : null} style={{ margin: 0, userSelect: 'none' }}>
+                    <input type="text" className="placeholder" disabled={this.props.disabled} value={this.initvalue.placeholder} readOnly
+                        onBlur={this.onBlur} onKeyDown={this.onKeyDown} onClick={this.onClick} />
+                    <img alt="" className={['arrow-down', this.state.hideOptions ? null : 'activity'].join(' ')} width={9} height={6}
+                        src={this.props.disabled ? disabledSvg : arrowSvg} />
+                </p>
+                <ul className="option" style={{ height: (this.state.hideOptions ? '0px' : 'auto') }}>
+                    {liArr}
+                </ul>
+            </a>
         )
     }
 }

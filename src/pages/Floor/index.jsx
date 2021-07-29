@@ -89,7 +89,7 @@ export default class index extends Component {
     placeholder: "1",
     value: "一层-1_1",
   }
-  group$ =  new Observable()
+  group$ = new Observable()
   state = {
     explode: false,
     gradation: false,
@@ -114,10 +114,10 @@ export default class index extends Component {
       data.changeCode(
         `const group = client.getEntityGroupByGroupPath('场景模型/主楼拆分');`,
         val ?
-        "client.disassemble(group, { spacing: 300, eachHeight: 290, duration: 5 })" :
-        "client.assemble(group)"
+          "client.disassemble(group, { spacing: 300, eachHeight: 290, duration: 5 })" :
+          "client.assemble(group)"
       );
-    });    
+    });
   }
 
   gradationf = (v) => {
@@ -154,8 +154,8 @@ export default class index extends Component {
     // 此处设置显示管线
     const currentPipe = this.pipeModels.filter(
       (pipeModel) =>
-      pipeModel.name ===
-      this.options[Number(this.selectedFloor.placeholder) - 1].pipeLineName
+        pipeModel.name ===
+        this.options[Number(this.selectedFloor.placeholder) - 1].pipeLineName
     );
     if (this.state.gradation && v) {
       this.setVisibility(currentPipe, true);
@@ -189,8 +189,8 @@ export default class index extends Component {
     await this.setVisibility(pipeToShow, this.state.pipe ? true : false);
     data.changeCode(
       `client.setVisibility(${[
-      ...modelToFocus.map((model) => `'${model.id}'`),
-    ]}, true)`
+        ...modelToFocus.map((model) => `'${model.id}'`),
+      ]}, true)`
     );
   }
 
@@ -211,12 +211,12 @@ export default class index extends Component {
     }
   }
   // 获取模型方法
-  getModel = async (name)=>{
+  getModel = async (name) => {
     const [model] = await diva.client.getEntitiesByName(name);
     return model;
   }
   // 设置路径显示隐藏
-  SetPathVisibility = (v)=>{
+  SetPathVisibility = (v) => {
     const pathIndexArray = [0, 1, 2, 3, 4];
     pathIndexArray.forEach((i) => {
       diva.client.setPathVisibility(i, v);
@@ -279,7 +279,7 @@ export default class index extends Component {
             </div>
           </div >
         </div >
-      </div>  
-      )
+      </div>
+    )
   }
 }

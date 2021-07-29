@@ -34,16 +34,16 @@ export default class index extends Component {
     checked: false
   }
 
-  onClick = async(index) => {
+  onClick = async (index) => {
     if (!this.airs[index]) return;
     await this.airs[index].focus(1000, -Math.PI / 6);
     data.changeCode(`device.focus(1000, -Math.PI / 6)`);
   }
 
-  onSwitch = async (checked,index) => {
+  onSwitch = async (checked, index) => {
     if (this.airControllers.length === 0) return;
-      checked ? this.airControllers[index].turnOn() : this.airControllers[index].turnOff();
-      data.changeCode(`device.${checked ? 'turnOn()' : 'turnOff()'}`);
+    checked ? this.airControllers[index].turnOn() : this.airControllers[index].turnOff();
+    data.changeCode(`device.${checked ? 'turnOn()' : 'turnOff()'}`);
   }
   async componentDidMount() {
     diva.client.applyScene('空调控制');
@@ -66,15 +66,15 @@ export default class index extends Component {
   }
   render() {
     const airDecArr = this.airDecs.map((airDec, i) => {
-    return (
-      <div key={airDec.title}>
-        <div className="switch-block" onClick={() => this.onClick(i)}>
-          <div className="switch-item">
-            <Switcher label={airDec.title} switch={(checked) => this.onSwitch(checked,i)}/>
+      return (
+        <div key={airDec.title}>
+          <div className="switch-block" onClick={() => this.onClick(i)}>
+            <div className="switch-item">
+              <Switcher label={airDec.title} switch={(checked) => this.onSwitch(checked, i)} />
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
 
     }
     )

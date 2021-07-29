@@ -51,7 +51,6 @@ export default class index extends Component {
   ];
 
   switchScene = (scene) => {
-    alert(123)
     diva.client.applyScene(scene.index).then(() => {
       data.changeCode(`client.applyScene('${scene.title}')`);
     });

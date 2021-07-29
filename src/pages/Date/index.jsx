@@ -53,7 +53,7 @@ export default class index extends Component {
   },
   ]
 
-  
+
   switchSeason = async (season) => {
     await diva.client.setDate(new Date(season.value));
     if (season.name === "winterSnow") {
@@ -106,15 +106,15 @@ export default class index extends Component {
   }
 
   componentDidMount() {
-      this.setState({
-        date: this.getDate("date"),
-        time: this.getDate("time"),
-      });
-      diva.client.setDate(new Date());
-      diva.client.setTime(new Date());
-      diva.client.applyScene("日期时间").then(() => {
-       data.changeCode(`client.applyScene('日期时间')`);
-      });
+    this.setState({
+      date: this.getDate("date"),
+      time: this.getDate("time"),
+    });
+    diva.client.setDate(new Date());
+    diva.client.setTime(new Date());
+    diva.client.applyScene("日期时间").then(() => {
+      data.changeCode(`client.applyScene('日期时间')`);
+    });
   }
 
   getTime = (hour, min) => {

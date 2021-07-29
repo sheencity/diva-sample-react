@@ -48,18 +48,18 @@ export default class index extends Component {
       state: true,
     },
     ],
-    
+
   }
   lights = []
   lightControllers = []
 
-  onSwitch = (event,index) => {
+  onSwitch = (event, index) => {
     this.setState({
-      lightDecs: this.state.lightDecs.map((item, _index) => _index === index ? {...item, state: !item.state} : item)
+      lightDecs: this.state.lightDecs.map((item, _index) => _index === index ? { ...item, state: !item.state } : item)
     })
     if (this.lightControllers.length === 0) return;
-        event ? this.lightControllers[index].turnOn() : this.lightControllers[index].turnOff();
-        data.changeCode(`device.${event ? "turnOn()" : "turnOff()"}`);
+    event ? this.lightControllers[index].turnOn() : this.lightControllers[index].turnOff();
+    data.changeCode(`device.${event ? "turnOn()" : "turnOff()"}`);
   }
 
   onClick = async (index) => {
@@ -69,20 +69,20 @@ export default class index extends Component {
   }
   async componentDidMount() {
     diva.client.applyScene("灯光控制");
-      // 初始化设备的初始状态
-      this.state.lightDecs.forEach(async (lightDec) => {
-        const lightController = new DeviceController();
-        const [light] = await diva.client.getEntitiesByName(
-          lightDec.title
-        );
-        light.bind(lightController.signal); // 绑定控制器
-        lightController.turnOn();
-        this.lights.push(light);
-        this.lightControllers.push(lightController);
-      });
-      setTimeout(() => {
-        data.changeCode(`client.applyScene('灯光控制')`);
-      }, 0);
+    // 初始化设备的初始状态
+    this.state.lightDecs.forEach(async (lightDec) => {
+      const lightController = new DeviceController();
+      const [light] = await diva.client.getEntitiesByName(
+        lightDec.title
+      );
+      light.bind(lightController.signal); // 绑定控制器
+      lightController.turnOn();
+      this.lights.push(light);
+      this.lightControllers.push(lightController);
+    });
+    setTimeout(() => {
+      data.changeCode(`client.applyScene('灯光控制')`);
+    }, 0);
 
   }
   componentWillUnmount() {

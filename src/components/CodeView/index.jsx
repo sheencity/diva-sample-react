@@ -5,9 +5,9 @@ export default class Header extends Component {
     state = {
         code: ''
     }
-   
-    componentDidMount(){
-        data.code.subscribe((res)=>{
+
+    componentDidMount() {
+        data.code.subscribe((res) => {
             this.setState({
                 code: res
             })

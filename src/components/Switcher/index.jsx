@@ -3,23 +3,14 @@ import './index.scss'
 
 
 export default class ContentBlock extends Component {
-
-
     handleClick = (event) => event.stopPropagation();
-
-
     checkedChange = (event) => {
-        // if(this.props.type || this.props.type === 0){
-        //     this.props.switch(event.target.checked,this.props.type);
-        // }
         this.props.switch(event.target.checked);
     }
-
     onClick = (event) => {
         event.stopPropagation();
     }
     render() {
-
         return (
             <div className="switcher" >
                 <span className="switcher-lable-title">{this.props.label}</span>

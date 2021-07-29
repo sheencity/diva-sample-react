@@ -5,7 +5,7 @@ export default class Header extends Component {
     state = {
         exampleCode: false
     }
-    swit = (checked)=>{
+    swit = (checked) => {
         this.setState({
             exampleCode: checked
         })
@@ -21,7 +21,7 @@ export default class Header extends Component {
                 </div>
                 <div className="info">
                     <div className="exampleCode">
-                        <Switcher checked={this.state.checked} label="显示示例代码" switch={(checked) => this.swit(checked) }/>
+                        <Switcher checked={this.state.checked} label="显示示例代码" switch={(checked) => this.swit(checked)} />
                     </div>
                 </div>
             </div>

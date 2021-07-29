@@ -103,7 +103,7 @@ export default class index extends Component {
       this.monitorHandlers.push(handle);
     }
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.monitors.forEach(async (m, i) => {
       const model = await this.getModelByName(m.title);
       model.removeEventListener('click', this.monitorHandlers[i]);

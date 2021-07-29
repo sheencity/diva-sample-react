@@ -105,7 +105,11 @@ export default class index extends Component {
     data.changeCode(`client.applyScene('电梯演示')`);
     this.lifts = this.lifts.map((lift, index) => this.addSelected(lift, index));
     for (let i = 0; i < 4; i++) {
-      const [model] = await diva.client.getEntitiesByName(
+      /**
+       * @type {import("@sheencity/diva-sdk").Model}
+       */
+      let model;
+      [model] = await diva.client.getEntitiesByName(
         this.lifts[i].title
       );
       const coord = await model.getCoordinate();
@@ -130,15 +134,13 @@ export default class index extends Component {
       });
       const lift = new Elevator({
         model,
-        signal: controller.signal
+        signal: controller.signal,
       }); // 初始化电梯
       this.liftModels.push(lift);
       this.controllers.push(controller);
     }
   }
-  componentWillUnmount() {
 
-  }
   render() {
     const liftArr = this.lifts.map((lift, i) =>
       <div key={lift.title} className="drop-block">
