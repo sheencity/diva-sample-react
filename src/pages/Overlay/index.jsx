@@ -224,9 +224,9 @@ export default class index extends Component {
         title: overlay.content,
         backgroundColor: overlay.color,
         opacity: overlay.opacity,
-        scale: overlay.scale,
+        scale: new Vector3(overlay.scale, overlay.scale, overlay.scale),
         resource: {
-          name: 'POI文字标签',
+          name: "POI文字标签",
         },
         coord: new Vector3(
           overlay.corrdinateX,
@@ -234,7 +234,7 @@ export default class index extends Component {
           overlay.corrdinateZ
         ),
         id: overlay.id,
-        name: this.uniqueName('poi'),
+        name: this.uniqueName("poi"),
         autoSize: false,
       });
       await poiOverlay.setClient(diva.client);
@@ -269,16 +269,16 @@ export default class index extends Component {
         },
         backgroundColor: overlay.color,
         opacity: overlay.opacity,
-        scale: overlay.scale,
+        scale: new Vector3(overlay.scale, overlay.scale, overlay.scale),
         coord: new Vector3(
           overlay.corrdinateX,
           overlay.corrdinateY,
           overlay.corrdinateZ
         ),
         resource: {
-          name: '文字标签',
+          name: "文字标签",
         },
-        name: this.uniqueName('marker'),
+        name: this.uniqueName("marker"),
         autoSize: false,
       });
       await markerOverlay.setClient(diva.client);
