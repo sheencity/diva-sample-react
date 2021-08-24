@@ -14,7 +14,8 @@ import {
   POIIcon,
   POIOverlay
 } from '../../models/overlay.model'
-import { Emissive, Marker, POI, Quaternion, Vector3 } from '@sheencity/diva-sdk';
+import { Emissive, Marker, POI } from '@sheencity/diva-sdk';
+import { Quaternion, Vector3, Euler, deg2rad } from '@sheencity/diva-sdk-math';
 import {
   LocalStorageService
 } from "../../services/localStorage.service";
@@ -233,7 +234,8 @@ export default class index extends Component {
           overlay.corrdinateZ
         ),
         id: overlay.id,
-        name: overlay.content
+        name: this.uniqueName('poi'),
+        autoSize: false,
       });
       await poiOverlay.setClient(diva.client);
       poiOverlay.focus(1000, -Math.PI / 6);
@@ -276,7 +278,8 @@ export default class index extends Component {
         resource: {
           name: '文字标签',
         },
-        name: overlay.title,
+        name: this.uniqueName('marker'),
+        autoSize: false,
       });
       await markerOverlay.setClient(diva.client);
       markerOverlay.focus(1000, -Math.PI / 6);
@@ -307,17 +310,21 @@ export default class index extends Component {
           overlay.corrdinateY,
           overlay.corrdinateZ
         ),
-        rotation: Quaternion.FromEulerAngles(
-          (overlay.rotationX * Math.PI) / 180,
-          (overlay.rotationY * Math.PI) / 180,
-          (overlay.rotationZ * Math.PI) / 180
+        rotation: Quaternion.FromEuler(
+          new Euler(
+            ...deg2rad([
+              overlay.rotationX,
+              overlay.rotationY,
+              overlay.rotationZ,
+            ])
+          )
         ),
         scale: new Vector3(overlay.scale, overlay.scale, overlay.scale),
         resource: {
           name: overlay.icon,
         },
         id: overlay.id,
-        name: overlay.icon,
+        name: this.uniqueName('effect'),
       });
       await emissiveOverlay.setClient(diva.client);
       emissiveOverlay.focus(1000, -Math.PI / 6);
@@ -331,6 +338,10 @@ export default class index extends Component {
       overlays: this.store.getAllOverlays()
     })
     this.reset();
+  }
+
+  uniqueName = (prefix) => {
+    return '' + prefix + '_' + new Date().toISOString();
   }
 
   /**
@@ -399,7 +410,7 @@ export default class index extends Component {
    */
   pickup = async () => {
     const handler = (event) => {
-      const wordPosition = event.worldPosition;
+      const wordPosition = event.detail.coord;
       this.setState({
         corrdinateX: wordPosition.x,
         corrdinateY: wordPosition.y,

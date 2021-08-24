@@ -59,6 +59,9 @@ export default class index extends Component {
       data.changeCode(`client.applyScene('半鸟瞰')`);
     })
   }
+  componentWillUnmount() {
+    diva.client.stopCameraTrack();
+  }
   render() {
     const videoArr = this.videos.map((video) =>
       <div key={video.index} className="content" onClick={() => this.toggleVideo(video)}>
