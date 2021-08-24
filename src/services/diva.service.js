@@ -1,4 +1,5 @@
-import { Diva, WebRtcAdapter } from '@sheencity/diva-sdk';
+import { Diva } from '@sheencity/diva-sdk';
+import { WebRtcAdapter } from '@sheencity/diva-sdk-adapter';
 export class DivaService {
   // divaClient
    /**
