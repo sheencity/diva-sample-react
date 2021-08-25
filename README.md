@@ -1,4 +1,4 @@
-<h1 align="center">DIVA Sample</h1>
+<h1 align="center">DIVA Sample react</h1>
 <div align="center">
   <strong>Digital Intelligence Visualization API</strong>
 </div>
@@ -9,7 +9,7 @@
 ## 下载
 
 ```shell
-git clone https://github.com/sheencity/diva-sample-react
+git clone https://github.com/sheencity/diva-sample-react.git
 ```
 
 ## 安装依赖
