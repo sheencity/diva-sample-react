@@ -1,0 +1,21 @@
+span {
+  position: relative;
+
+  button {
+    border: none;
+    outline: none;
+    background: #fff;
+    width: 57px;
+    height: 24px;
+    color: #fff;
+    padding-left: 6px;
+    box-sizing: border-box;
+    border-radius: 2px;
+  }
+  div.colorSlab {
+    position: absolute;
+    top: 30px;
+    right: 0px;
+    z-index: 100;
+  }
+}

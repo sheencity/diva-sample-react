@@ -68,7 +68,7 @@ export default class App extends Component {
       );
     }
     return (
-      <div className="win">
+      <div className="win" onMouseDown={(event) => globalClick.next(event)}>
         <div
           id="backendContainer"
           ref={this.backendContainer}
