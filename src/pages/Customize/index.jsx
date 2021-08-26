@@ -95,7 +95,7 @@ export default class index extends Component {
       placeholder: this.currentLift[i].toString(),
     };
     return {
-      ...lift,
+      title: lift?.title,
       selected
     };
   }

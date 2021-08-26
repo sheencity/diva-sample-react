@@ -2,7 +2,6 @@ const STORE_TOKEN = 'overlay';
 
 
 export class LocalStorageService {
-  constructor() {}
 
   /**
    * 将覆盖物信息存储在 localStorage 中
