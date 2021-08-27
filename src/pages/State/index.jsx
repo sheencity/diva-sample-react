@@ -108,7 +108,7 @@ export default class index extends Component {
         break;
     }
     return {
-      ...equipment,
+      title: equipment.title,
       selected
     };
   }

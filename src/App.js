@@ -6,7 +6,6 @@ import { diva, globalClick } from "./global";
 
 import Header from "./components/Header";
 import Nan from "./components/Nan";
-import Customize from "./pages/Customize";
 import CodeView from "./components/CodeView";
 // 通过懒加载导入各个模块
 const Scene = lazy(() => import("./pages/Scene"));
@@ -19,6 +18,7 @@ const Overlay = lazy(() => import("./pages/Overlay"));
 const State = lazy(() => import("./pages/State"));
 const Monitor = lazy(() => import("./pages/Monitor"));
 const Lamp = lazy(() => import("./pages/Lamp"));
+const Customize = lazy(() => import("./pages/Customize"))
 const AirConditioner = lazy(() => import("./pages/AirConditioner"));
 
 // 创建并暴露App组件
