@@ -50,7 +50,9 @@ export default class index extends Component {
   monitorHandlers = [];
 
   removeWidget = (name) => {
-    this.getModelByName(name).then(m => m.setWebWidget(null));
+    this.getModelByName(name).then((m) =>
+      m.setWebWidget(null).catch((err) => console.error(err))
+    );
   };
   setWidget = async (monitor, url) => {
     if (typeof monitor === "string") {
@@ -62,11 +64,7 @@ export default class index extends Component {
   };
 
   refresh = async (monitorEqui) => {
-    try {
-      this.removeWidget(monitorEqui.title);
-    } catch {
-      console.log("当前模型无可清除的 web 组件");
-    }
+    this.removeWidget(monitorEqui.title);
     await this.setWidget(monitorEqui.title, monitorEqui.url);
   };
   selectMonitor = async (name) => {
@@ -106,8 +104,8 @@ export default class index extends Component {
   }
   componentWillUnmount() {
     monitors.forEach((m, i) => {
-      this.getModelByName(m.title).then(m => {
-        if (m) m.removeEventListener("click", this.monitorHandlers[i])
+      this.getModelByName(m.title).then((m) => {
+        if (m) m.removeEventListener("click", this.monitorHandlers[i]);
       });
     });
   }
