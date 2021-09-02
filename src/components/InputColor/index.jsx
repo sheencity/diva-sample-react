@@ -58,7 +58,7 @@ export class InputColor extends Component {
         target !== this._slab &&
         !this._slab.contains(target)
       )
-        this.hiddenHandle();
+      this.hiddenHandle();
     });
     this.setState({
       clickSubscription: subscription,
@@ -87,9 +87,11 @@ export class InputColor extends Component {
   componentWillReceiveProps = (nextProps) => {
     this.setState({selectColor: this.hexToRgba(nextProps.value)});
   };
-  componentDidMount = ()=>{
+
+  componentDidMount = () => {
     this.setState({selectColor: this.hexToRgba(this.props.value)});
-  }
+  };
+  
   componentWillUnmount = () => {
     const subs = this.state.clickSubscription;
     if (subs) {
