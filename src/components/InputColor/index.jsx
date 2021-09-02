@@ -81,14 +81,11 @@ export class InputColor extends Component {
   };
 
   returnColor = () => {
-    console.log(this.state.selectColor, this.props.value);
     this.props.input(this.rgbaToHex(this.state.selectColor));
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps);
     this.setState({selectColor: this.hexToRgba(nextProps.value)});
-    console.log(this.state.selectColor);
   };
 
   componentWillUnmount = () => {
