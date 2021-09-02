@@ -545,6 +545,7 @@ export default class index extends Component {
           <InputColor
             input={(value) => this.setState({ borderColor: value })}
             value={this.state.borderColor}
+            ident="pick-b"
           ></InputColor>
         </div>
       );
@@ -766,6 +767,7 @@ export default class index extends Component {
             <InputColor
               input={(value) => this.setState({ color: value })}
               value={this.state.color}
+              ident="pick-c"
             ></InputColor>
           </div>
           {emissiveOverlayRotation}

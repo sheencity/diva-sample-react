@@ -1,6 +1,7 @@
-import React, { Component, Suspense, lazy } from "react";
-import { BrowserRouter } from "react-router-dom";
+import React, { Component, Suspense } from "react";
+import { BrowserRouter, Redirect } from "react-router-dom";
 import { Route } from "react-router-dom";
+import { loadable } from './utils/loadable';
 import "./App.scss";
 import { diva, globalClick } from "./global";
 
@@ -8,18 +9,18 @@ import Header from "./components/Header";
 import Nan from "./components/Nan";
 import CodeView from "./components/CodeView";
 // 通过懒加载导入各个模块
-const Scene = lazy(() => import("./pages/Scene"));
-const Video = lazy(() => import("./pages/Video"));
-const Global = lazy(() => import("./pages/Global"));
-const Weather = lazy(() => import("./pages/Weather"));
-const Date = lazy(() => import("./pages/Date"));
-const Floor = lazy(() => import("./pages/Floor"));
-const Overlay = lazy(() => import("./pages/Overlay"));
-const State = lazy(() => import("./pages/State"));
-const Monitor = lazy(() => import("./pages/Monitor"));
-const Lamp = lazy(() => import("./pages/Lamp"));
-const Customize = lazy(() => import("./pages/Customize"))
-const AirConditioner = lazy(() => import("./pages/AirConditioner"));
+const Scene = loadable(() => import("./pages/Scene"));
+const Video = loadable(() => import("./pages/Video"));
+const Global = loadable(() => import("./pages/Global"));
+const Weather = loadable(() => import("./pages/Weather"));
+const Date = loadable(() => import("./pages/Date"));
+const Floor = loadable(() => import("./pages/Floor"));
+const Overlay = loadable(() => import("./pages/Overlay"));
+const State = loadable(() => import("./pages/State"));
+const Monitor = loadable(() => import("./pages/Monitor"));
+const Lamp = loadable(() => import("./pages/Lamp"));
+const Customize = loadable(() => import("./pages/Customize"))
+const AirConditioner = loadable(() => import("./pages/AirConditioner"));
 
 // 创建并暴露App组件
 export default class App extends Component {
@@ -43,7 +44,7 @@ export default class App extends Component {
     if (this.state.isRouter) {
       router = (
         <div>
-          {/* <Redirect to="/scene"></Redirect> */}
+          <Redirect to="/scene"></Redirect>
           <Route path="/scene" component={Scene} />
           <Route path="/video" component={Video} />
           <Route path="/global" component={Global} />

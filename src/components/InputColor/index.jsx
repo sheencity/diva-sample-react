@@ -87,7 +87,9 @@ export class InputColor extends Component {
   componentWillReceiveProps = (nextProps) => {
     this.setState({selectColor: this.hexToRgba(nextProps.value)});
   };
-
+  componentDidMount = ()=>{
+    this.setState({selectColor: this.hexToRgba(this.props.value)});
+  }
   componentWillUnmount = () => {
     const subs = this.state.clickSubscription;
     if (subs) {
