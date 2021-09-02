@@ -6,7 +6,7 @@ import { globalClick } from "../../global";
 export class InputColor extends Component {
   state = {
     selectColor: {
-      r: 255,
+      r: 0,
       g: 0,
       b: 0,
       a: 1,
@@ -18,12 +18,20 @@ export class InputColor extends Component {
   _button = null;
   _slab = null;
 
-  colorToStr = (rgba, disableAlpha = true) => {
+  hexToRgba = (string) => {
+    string = string.toLowerCase();
+    const nc = (str) => parseInt('0x' + str);
+    const rgbaVal = {r: nc(string.slice(1, 3)), g: nc(string.slice(3, 5)), b: nc(string.slice(5, 7)), a: 1};
+    return rgbaVal;
+  };
+
+  rgbaToHex = (rgba, disableAlpha = true) => {
     const nc = (num) => num.toString(16).padStart(2, "0");
     let colorStr = "#" + nc(rgba.r) + nc(rgba.g) + nc(rgba.b);
     if (rgba.a && !disableAlpha) colorStr += nc(Math.floor(rgba.a * 255));
     return colorStr;
   };
+
   colorToFun = (rgba, disableAlpha = true) => {
     let colorArr = [rgba.r, rgba.g, rgba.b];
     if (rgba.a && !disableAlpha) colorArr.push(rgba.a);
@@ -73,7 +81,14 @@ export class InputColor extends Component {
   };
 
   returnColor = () => {
-    this.props.input(this.colorToStr(this.state.selectColor));
+    console.log(this.state.selectColor, this.props.value);
+    this.props.input(this.rgbaToHex(this.state.selectColor));
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log(nextProps);
+    this.setState({selectColor: this.hexToRgba(nextProps.value)});
+    console.log(this.state.selectColor);
   };
 
   componentWillUnmount = () => {

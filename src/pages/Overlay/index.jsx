@@ -544,6 +544,7 @@ export default class index extends Component {
           /> */}
           <InputColor
             input={(value) => this.setState({ borderColor: value })}
+            value={this.state.borderColor}
           ></InputColor>
         </div>
       );
@@ -764,6 +765,7 @@ export default class index extends Component {
             {/* <input value={this.state.color} onChange={(event) => { this.setState({ color: event.target.value }) }} type="color" /> */}
             <InputColor
               input={(value) => this.setState({ color: value })}
+              value={this.state.color}
             ></InputColor>
           </div>
           {emissiveOverlayRotation}
