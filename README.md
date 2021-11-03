@@ -27,7 +27,7 @@ npm install
 npm start
 ```
 
-项目将运行在 `http://localhost:9000/`。
+项目将运行在 `http://localhost:4200/`。
 
 ## 打包项目
 
