@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import './index.scss'
-import disabledSvg from '../../assets/arrow-down-disabled.svg'
-import arrowSvg from '../../assets/arrow-down.svg'
-
 export default class ContentBlock extends Component {
 
     state = {
@@ -52,7 +49,7 @@ export default class ContentBlock extends Component {
                     <input type="text" className="placeholder" disabled={this.props.disabled} value={this.initvalue.placeholder} readOnly
                         onBlur={this.onBlur} onKeyDown={this.onKeyDown} onClick={this.onClick} />
                     <img alt="" className={['arrow-down', this.state.hideOptions ? null : 'activity'].join(' ')} width={9} height={6}
-                        src={this.props.disabled ? disabledSvg : arrowSvg} />
+                        src={this.props.disabled ? require('../../assets/arrow-down-disabled.svg').default : require('../../assets/arrow-down.svg').default } />
                 </p>
                 <ul className="option" style={{ height: (this.state.hideOptions ? '0px' : 'auto') }}>
                     {liArr}

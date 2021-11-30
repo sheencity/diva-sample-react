@@ -57,7 +57,7 @@ export default class index extends Component {
       <div key={weather.typeName} className="content" onClick={() => this.switchWeather(weather)}>
         <div className="title">{weather.title}</div>
         <div className="icon">
-          <img alt="天气控制" src={require(`../../assets/icon/weather/${weather.typeName}.png`).default} />
+          <img alt="天气控制" src={require(`/src/assets/icon/weather/${weather.typeName}.png`)} />
         </div>
       </div>
     )
