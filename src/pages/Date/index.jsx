@@ -143,7 +143,7 @@ export default class index extends Component {
       <div key={season.name} className="content" onClick={() => this.switchSeason(season)}>
         <div className="title">{season.title}</div>
         <div className="icon">
-          <img alt="预设四季" src={require(`../../assets/icon/date/${season.name}.png`).default} />
+          <img alt="预设四季" src={require(`/src/assets/icon/date/${season.name}.png`)} />
         </div>
       </div>
     )
@@ -151,7 +151,7 @@ export default class index extends Component {
       <div key={noon.title} className="content" onClick={() => this.switchNoon(noon)}>
         <div className="title">{noon.title}</div>
         <div className="icon">
-          <img alt="预设四季" src={require(`../../assets/icon/date/${noon.name}.png`).default} />
+          <img alt="预设四季" src={require(`/src/assets/icon/date/${noon.name}.png`)} />
         </div>
       </div>
     )
