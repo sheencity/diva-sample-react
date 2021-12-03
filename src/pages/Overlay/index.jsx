@@ -32,7 +32,7 @@ export default class index extends Component {
     },
     content: "",
     title: "",
-    color: "#000000",
+    color: "#ff0000",
     borderColor: "#ffffff",
     scale: 1.0,
     opacity: 1.0,
@@ -94,7 +94,7 @@ export default class index extends Component {
         },
         {
           value: OverlayType.Emissive,
-          placeholder: "Effect",
+          placeholder: "Emissive",
         },
       ],
       alignOptions: [
@@ -382,7 +382,7 @@ export default class index extends Component {
       rotationZ: 0,
       title: "",
       content: "",
-      color: "#000000",
+      color: "#ff0000",
       scale: 1.0,
       opacity: 1.0,
       border: 0.0,
@@ -420,6 +420,10 @@ export default class index extends Component {
     });
     document.body.style.cursor = "crosshair";
   };
+
+  mouseupStop = (e) => {
+    e.stopPropagation();
+  }
 
   /**
    * 阻止事件冒泡
@@ -484,7 +488,7 @@ export default class index extends Component {
               {overlay.type === "poi"
                 ? "POI"
                 : overlay.type === "Marker"
-                ? "标签"
+                ? "Marker"
                 : "Emissive"}
             </span>
             <div
@@ -716,7 +720,7 @@ export default class index extends Component {
           </div>
           <div className="btn-item">
             <span>坐标拾取</span>
-            <button onClick={this.pickup}>拾取</button>
+            <button onClick={this.pickup} onMouseUp={this.mouseupStop}>拾取</button>
           </div>
           <div className="input-item">
             <span>坐标</span>
