@@ -35,10 +35,10 @@ export default class index extends Component {
       value: OverlayType.POI,
       placeholder: 'POI',
     },
-    content: '',
-    title: '',
-    color: '#000000',
-    borderColor: '#ffffff',
+    content: "",
+    title: "",
+    color: "#ff0000",
+    borderColor: "#ffffff",
     scale: 1.0,
     opacity: 1.0,
     border: 0.0,
@@ -89,18 +89,19 @@ export default class index extends Component {
   }
   componentWillMount() {
     this.setState({
-      typeOptions: [{
-        value: OverlayType.POI,
-        placeholder: 'POI'
-      },
-      {
-        value: OverlayType.Marker,
-        placeholder: 'Marker'
-      },
-      {
-        value: OverlayType.Emissive,
-        placeholder: 'Effect'
-      },
+      typeOptions: [
+        {
+          value: OverlayType.POI,
+          placeholder: "POI",
+        },
+        {
+          value: OverlayType.Marker,
+          placeholder: "Marker",
+        },
+        {
+          value: OverlayType.Emissive,
+          placeholder: "Emissive",
+        },
       ],
       alignOptions: [{
         value: 'center',
@@ -383,9 +384,9 @@ export default class index extends Component {
       rotationX: 0,
       rotationY: 0,
       rotationZ: 0,
-      title: '',
-      content: '',
-      color: '#000000',
+      title: "",
+      content: "",
+      color: "#ff0000",
       scale: 1.0,
       opacity: 1.0,
       border: 0.0,
@@ -422,6 +423,10 @@ export default class index extends Component {
       once: true
     });
     document.body.style.cursor = 'crosshair';
+  }
+
+  mouseupStop = (e) => {
+    e.stopPropagation();
   }
 
   /**
@@ -469,8 +474,17 @@ export default class index extends Component {
 
           <span>{overlay.type === 'poi' ? overlay.content : overlay.type === 'Marker' ? overlay.title : overlay.icon}</span>
           <div className="overlay-info">
-            <span>{overlay.type === 'poi' ? 'POI' : overlay.type === 'Marker' ? '标签' : 'Emissive'}</span>
-            <div className="overlay-delete" onClick={(event) => this.del(event, overlay)}>
+            <span>
+              {overlay.type === "poi"
+                ? "POI"
+                : overlay.type === "Marker"
+                ? "Marker"
+                : "Emissive"}
+            </span>
+            <div
+              className="overlay-delete"
+              onClick={(event) => this.del(event, overlay)}
+            >
               <img alt="删除" src={deleteImg} />
             </div>
           </div>
@@ -573,7 +587,7 @@ export default class index extends Component {
           </div>
           <div className="btn-item">
             <span>坐标拾取</span>
-            <button onClick={this.pickup}>拾取</button>
+            <button onClick={this.pickup} onMouseUp={this.mouseupStop}>拾取</button>
           </div>
           <div className="input-item">
             <span>坐标</span>
