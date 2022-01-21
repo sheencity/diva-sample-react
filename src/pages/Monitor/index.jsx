@@ -1,38 +1,40 @@
-import React, { Component } from 'react'
-import './index.scss'
-import {
-  diva, data
-} from '../../global';
-import ContentBlock from '../../components/ContentBlock'
-
-import monitorImg from '../../assets/icon/monitor/refresh.png'
 import { RenderingStyleMode } from '@sheencity/diva-sdk';
+import React, { Component } from 'react';
+import './index.scss';
+import { diva, data } from '../../global';
+import ContentBlock from '../../components/ContentBlock';
+import monitorImg from '../../assets/icon/monitor/refresh.png';
+
 export default class index extends Component {
+  monitors = [
+    {
+      title: '测试设备01',
+      url: 'rtmp://xxxxxxxxxxxxxxxxxx',
+    },
+    {
+      title: '测试设备02',
+      url: 'rtmp://xxxxxxxxxxxxxxxxxx',
+    }
+  ];
+  state = {
+    monitorEquis: [
+      {
+        title: '测试设备03',
+        url: 'https://www.sheencity.com',
+      },
+      {
+        title: '测试设备04',
+        url: 'https://www.sheencity.com',
+      }
+    ]
+  };
+  models = new Map();
+  monitorHandlers = [];
+  // 存在弹窗的模型
+  widgetModel = null;
 
-  monitors = [{
-    title: '测试设备01',
-    url: 'rtmp://xxxxxxxxxxxxxxxxxx',
-  },
-  {
-    title: '测试设备02',
-    url: 'rtmp://xxxxxxxxxxxxxxxxxx',
-  }
-  ]
-  monitorEquis = [{
-    title: '测试设备03',
-    url: 'https://www.sheencity.com',
-  },
-  {
-    title: '测试设备04',
-    url: 'https://www.sheencity.com',
-  }
-  ]
-  models = new Map()
-  monitorHandlers = []
-
-  removeWidget = async (name) => {
-    await (await this.getModelByName(name)).setWebWidget(null);
-
+  removeWidget = async () => {
+    if (this.widgetModel) await this.widgetModel.setWebWidget(null);
   }
   setWidget = async (monitor, url) => {
     if (typeof monitor === 'string') {
@@ -45,6 +47,7 @@ export default class index extends Component {
       mouseInput: true,
       keyboardInput: true,
     });
+    this.widgetModel = monitor;
     data.changeCode(
       `model.setWebWidget(new URL('${url}'), { width: 500, height: 280, mouseInput: true, keyboardInput: true })`
     );
@@ -52,72 +55,64 @@ export default class index extends Component {
 
   refresh = async (monitorEqui) => {
     try {
-      await this.removeWidget(monitorEqui.title);
+      await this.removeWidget();
     } catch {
       console.log('当前模型无可清除的 web 组件');
     }
     await this.setWidget(monitorEqui.title, monitorEqui.url);
   }
   selectMonitor = async (name) => {
-    await (await this.getModelByName(name)).focus(1000, -Math.PI / 6);
-    data.changeCode(`model.focus(1000, -Math.PI / 6)`);
+    await (await this.getModelByName(name)).focus(1000, - Math.PI / 6);
+    data.changeCode(`model.focus(1000, - Math.PI / 6)`);
   }
   getModelByName = async (name) => {
-    let m = this.models.get(name);
-    if (!m) {
-      m = (await diva.client.getEntitiesByName(name))[0];
-      this.models.set(name, m);
+    let model = this.models.get(name);
+    if (!model) {
+      model = (await diva.client.getEntitiesByName(name))[0];
+      this.models.set(name, model);
     }
-    return m;
+    return model;
   }
   stopPropagation = ($event) => {
     $event.stopPropagation();
   }
 
   async componentDidMount() {
-    const monitors = [{
-      title: '测试设备01',
-      url: 'rtmp://xxxxxxxxxxxxxxxxxx',
-    },
-    {
-      title: '测试设备02',
-      url: 'rtmp://xxxxxxxxxxxxxxxxxx',
-    },
-    {
-      title: '测试设备03',
-      url: 'https://www.sheencity.com',
-    },
-    {
-      title: '测试设备04',
-      url: 'https://www.sheencity.com',
-    }
-    ];
+    const totalMonitors = this.monitors.concat(this.state.monitorEquis);
+    console.log(totalMonitors);
     diva.client.applyScene('监控设备').then(() => {
       data.changeCode(`client.applyScene('监控设备')`);
     });
-    this.models = new Map();
-    this.monitorHandlers = [];
-    for (let i = 0; i < monitors.length; i++) {
-      const model = await this.getModelByName(monitors[i].title);
+    for (let i = 0; i < totalMonitors.length; i++) {
+      const model = await this.getModelByName(totalMonitors[i].title);
       const handle = (model) => {
-        const url = monitors.find((m) => m.title === model.name).url;
+        const url = totalMonitors.find((m) => m.title === model.name).url;
         this.setWidget(model, url);
       };
       model.setRenderingStyleMode(RenderingStyleMode.Default);
-      model.addEventListener('click', () => {
-        handle(model)
-      });
+      model.addEventListener('click', () => handle(model));
       this.monitorHandlers.push(handle);
     }
   }
-  componentWillUnmount() {
+
+  async componentWillUnmount() {
+    await this.removeWidget();
     this.monitors.forEach(async (m, i) => {
       const model = await this.getModelByName(m.title);
       model.removeEventListener('click', this.monitorHandlers[i]);
     });
   }
-  render() {
 
+  inputChange = (value, i) => {
+    const tempMonitor = [...this.state.monitorEquis];
+    this.setState({
+      monitorEquis: tempMonitor.map((item, index) => {
+        return index === i ? { ...item, url: value } : item
+      })
+    });
+  }
+
+  render() {
     const monitorsArr = this.monitors.map((monitor) =>
       <div key={monitor.title}>
         <div className="drop-block" >
@@ -128,9 +123,9 @@ export default class index extends Component {
           </div>
         </div>
       </div>
-    )
+    );
 
-    const monitorEquisArr = this.monitorEquis.map((monitorEqui) =>
+    const monitorEquisArr = this.state.monitorEquis.map((monitorEqui, index) =>
       <div key={monitorEqui.title}>
         <div className="refresh-block" onClick={() => this.selectMonitor(monitorEqui.title)}>
           <div className="refresh-item">
@@ -139,9 +134,14 @@ export default class index extends Component {
               <img src={monitorImg} alt="设备弹窗演示" />
             </div>
           </div>
+          <input value={monitorEqui.url}
+            onClick={(event) => this.stopPropagation(event)}
+            onKeyDown={(event) => this.stopPropagation(event)}
+            onChange={(event) => this.inputChange(event.target.value, index)}
+          />
         </div>
       </div>
-    )
+    );
 
     return (
       <div className="monitor-main">
