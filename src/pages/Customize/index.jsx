@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
-import './index.scss'
-import {
-  diva, data
-} from '../../global';
+import { ElevatorController, Elevator } from '@sheencity/diva-sdk';
+import { Vector3 } from '@sheencity/diva-sdk-math';
+import React, { Component } from 'react';
+import './index.scss';
+import { diva, data } from '../../global';
 import ContentBlock from '../../components/ContentBlock';
-
-import { Elevator, ElevatorController, Vector3 } from '@sheencity/diva-sdk';
 import DropDown from '../../components/DropDown';
 
 export default class index extends Component {
@@ -22,7 +20,7 @@ export default class index extends Component {
   {
     title: '四号梯',
   },
-  ]
+  ];
   options = [{
     value: '1',
     placeholder: '1'
@@ -71,23 +69,21 @@ export default class index extends Component {
     value: '12',
     placeholder: '12'
   },
-  ]
+  ];
   initvalue = {
     value: '1',
     placeholder: '1'
-  }
-  liftModels = []
-  controllers = []
-  currentLift = [1, 1, 1, 1]
-  step = 299.7
-  state = {
-    checked: false
-  }
+  };
+  liftModels = [];
+  controllers = [];
+  currentLift = [1, 1, 1, 1];
+  step = 299.7;
+  state = { checked: false };
 
   selectLift = async (option,i) => {
     const value = Number(option.value);
-        this.controllers[i].land(`f${value}`);
-        data.changeCode(`elevatorController.land('f${value}')`);
+    this.controllers[i].land(`f${value}`);
+    data.changeCode(`elevatorController.land('f${value}')`);
   }
   addSelected = (lift, i) => {
     let selected = {

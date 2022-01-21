@@ -1,13 +1,10 @@
-import React, { Component } from 'react'
-import './index.scss'
-import {
-  diva, data
-} from '../../global';
-import ContentBlock from '../../components/ContentBlock'
+import React, { Component } from 'react';
+import './index.scss';
+import { diva, data } from '../../global';
+import ContentBlock from '../../components/ContentBlock';
+import sceneImg from '../../assets/icon/scene/scene.png';
 
-import sceneImg from '../../assets/icon/scene/scene.png'
 export default class index extends Component {
-
   scenes = [{
     title: "测试场景01",
     index: 0,
@@ -56,7 +53,7 @@ export default class index extends Component {
     });
   }
   componentDidMount() {
-    diva.client.applyScene("半鸟瞰").then(() => {
+    diva.client?.applyScene("半鸟瞰").then(() => {
       data.changeCode(`client.applyScene('半鸟瞰')`);
     });
   }

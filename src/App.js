@@ -1,19 +1,16 @@
+import { WebRtcAdapter } from '@sheencity/diva-sdk-adapter';
 import React, { Component, Suspense, lazy } from 'react';
-import { BrowserRouter } from 'react-router-dom'
-import { Route } from 'react-router-dom';
-import './App.scss'
-import {
-  diva
-} from './global';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { Subject } from 'rxjs';
-import {
-  debounceTime
-} from "rxjs/operators";
+import { debounceTime } from 'rxjs/operators';
 
-import Header from "./components/Header";
-import Nan from "./components/Nan";
+import './App.scss';
+import { diva } from './global';
+import Header from './components/Header';
+import Nan from './components/Nan';
 import Customize from './pages/Customize';
-import CodeView from "./components/CodeView";
+import CodeView from './components/CodeView';
+
 // 通过懒加载导入各个模块
 const Scene = lazy(() => import('./pages/Scene'));
 const Video = lazy(() => import('./pages/Video'));
@@ -27,28 +24,31 @@ const Monitor = lazy(() => import('./pages/Monitor'));
 const Lamp = lazy(() => import('./pages/Lamp'));
 const AirConditioner = lazy(() => import('./pages/AirConditioner'));
 
-
 // 创建并暴露App组件
 export default class App extends Component {
-
   state = {
     isRouter: false,
-    exampleCode: false
-  }
+    exampleCode: false,
+  };
   changeResolution = new Subject();
+
   updateResolution = () => {
-    const width = this.backendContainer.current.clientWidth;
-    const height = this.backendContainer.current.clientHeight;
-    diva.client.setResolution({
-      width,
-      height,
-    });
+    if (diva.adapter instanceof WebRtcAdapter) {
+      const width = this.backendContainer.current.clientWidth;
+      const height = this.backendContainer.current.clientHeight;
+      diva.client.setResolution({ width, height });
+    }
   }
 
   async componentDidMount() {
     if (this.backendContainer.current) {
       //初始话 webRtc 链接
       await diva.init(this.backendContainer.current);
+      if (!diva.client) {
+        new Error('diva client is not initialized');
+        return;
+      }
+      this.setState({ isRouter: true });
       //  设置服务后端分辨率
       this.updateResolution();
       // 监听显示区域的改变 
@@ -59,9 +59,6 @@ export default class App extends Component {
       this.changeResolution
         .pipe(debounceTime(200))
         .subscribe(this.updateResolution);
-      this.setState(
-        { isRouter: true }
-      )
     }
   }
 
@@ -72,10 +69,9 @@ export default class App extends Component {
   render() {
     //获取DOM元素
     this.backendContainer = React.createRef();
-    let router = null;
-    if (this.state.isRouter) {
-      router = <div>
-        {/* <Redirect to="/scene"></Redirect> */}
+    const router = !this.state.isRouter ? null :
+      <div>
+        <Redirect to="/scene"></Redirect>
         <Route path="/scene" component={Scene} />
         <Route path="/video" component={Video} />
         <Route path="/global" component={Global} />
@@ -88,14 +84,11 @@ export default class App extends Component {
         <Route path="/lamp" component={Lamp} />
         <Route path="/airConditioner" component={AirConditioner} />
         <Route path="/customize" component={Customize} />
-      </div>
-    }
-    let codeArea = null;
-    if (this.state.exampleCode) {
-      codeArea = <div className="codeView">
+      </div>;
+    const codeArea = !this.state.exampleCode ? null :
+      <div className="codeView">
         <CodeView />
-      </div>
-    }
+      </div>;
     return (
       <div className="win">
         <div id="backendContainer" ref={this.backendContainer} className="backend-container"></div>
