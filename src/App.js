@@ -1,4 +1,4 @@
-import { WebRtcAdapter } from '@sheencity/diva-sdk-adapter';
+import { WebRtcAdapter } from '@sheencity/diva-sdk-core';
 import React, { Component, Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { Subject } from 'rxjs';
