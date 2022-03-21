@@ -18,8 +18,7 @@ export class DivaService {
   async init(container) {
     console.log({ container });
     const apiKey = '<replace_your_api_key_here>';
-    // eslint-disable-next-line no-undef
-    this.adapter = /Mars/.test(globalThis.navigator.userAgent)
+    this.adapter = this.isEmbeddedMode()
       ? new CefAdapter(container) // 使用内嵌模式
       : new WebRtcAdapter(container, new URL('ws://127.0.0.1:3000')); // 使用云渲染模式
     const diva = new Diva({ apiKey, adapter: this.adapter });
@@ -27,5 +26,14 @@ export class DivaService {
     console.log('diva is', diva);
     this.client = await diva.init();
     console.log('client is', this.client);
+  }
+
+  /**
+   * 判断是否启用内嵌模式
+   * @returns 内嵌模式下返回 true
+   */
+  isEmbeddedMode() {
+    // eslint-disable-next-line no-undef
+    return /Mars/.test(globalThis.navigator.userAgent);
   }
 }
