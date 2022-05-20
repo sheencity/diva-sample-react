@@ -1,11 +1,6 @@
-import React, { Component } from 'react'
-import './index.scss'
-import {
-  diva, data
-} from '../../global';
-import ContentBlock from '../../components/ContentBlock'
-import InputNumber from '../../components/InputNumber'
-import DropDown from '../../components/DropDown'
+import { Emissive, Marker, Model, POI } from '@sheencity/diva-sdk';
+import { Quaternion, Vector3, Euler, deg2rad } from '@sheencity/diva-sdk-math';
+import React, { Component } from 'react';
 import {
   EmissionType,
   EmissiveOverlay,
@@ -13,14 +8,14 @@ import {
   OverlayType,
   POIIcon,
   POIOverlay
-} from '../../models/overlay.model'
-import { Emissive, Marker, POI } from '@sheencity/diva-sdk';
-import { Quaternion, Vector3, Euler, deg2rad } from '@sheencity/diva-sdk-math';
-import {
-  LocalStorageService
-} from "../../services/localStorage.service";
-import deleteImg from '../../assets/icon/overlay/delete.png'
-
+} from '../../models/overlay.model';
+import './index.scss';
+import deleteImg from '../../assets/icon/overlay/delete.png';
+import ContentBlock from '../../components/ContentBlock';
+import InputNumber from '../../components/InputNumber';
+import DropDown from '../../components/DropDown';
+import { diva, data } from '../../global';
+import { LocalStorageService } from "../../services/localStorage.service";
 
 export default class index extends Component {
 
@@ -54,33 +49,32 @@ export default class index extends Component {
   store = new LocalStorageService()
   typeInitial = {
     value: 'poi',
-    placeholder: 'POI'
-  }
+    placeholder: 'POI',
+  };
   alignInitial = {
     value: 'center',
-    placeholder: '居中'
-  }
+    placeholder: '居中',
+  };
   emissiveInitial = {
     value: '悬浮标记01',
-    placeholder: '悬浮标记01'
-  }
+    placeholder: '悬浮标记01',
+  };
   iconInitial = {
     value: 'camera',
-    placeholder: '摄像头'
-  }
+    placeholder: '摄像头',
+  };
   selectedAlign = {
     value: 'center',
     placeholder: '居中',
-  }
+  };
   selectedIcon = {
     value: POIIcon.Camera,
     placeholder: '摄像头',
-  }
+  };
   selectedEmissive = {
     value: EmissionType.type1,
     placeholder: '悬浮标记01',
-  }
-
+  };
 
   switchScene = (scene) => {
     diva.client.applyScene(scene.index).then(() => {
@@ -209,6 +203,9 @@ export default class index extends Component {
     })
   }
 
+  /**
+   * 创建覆盖物
+   */
   create = async () => {
     if (this.state.selectedType.value === OverlayType.POI) {
       const overlay = new POIOverlay();
@@ -346,20 +343,19 @@ export default class index extends Component {
   }
 
   /**
-     * 删除覆盖物
-     */
+   * 删除覆盖物
+   */
   del = async ($event, overlay) => {
     $event.stopPropagation();
     this.store.deleteOverlay(overlay);
     this.setState({
       overlays: this.store.getAllOverlays()
     })
+    /**@type {Model} */
     const entity = await diva.client.getEntityById(overlay.id);
-    await entity.destroy();
-    await entity.detach();
-    data.changeCode(`entity.destroy()`);
+    await entity.setClient(null);
+    data.changeCode(`entity.setClient(null)`);
   }
-
 
   /**
    * 创建覆盖物之后重置所有配置
@@ -402,6 +398,7 @@ export default class index extends Component {
     this.setState({
       selectedId: overlay.id
     });
+    /**@type {Model} */
     const entity = await diva.client.getEntityById(overlay.id);
     entity.focus(1000, -Math.PI / 6);
     data.changeCode(`model.focus(1000, -Math.PI / 6)`);
@@ -413,15 +410,13 @@ export default class index extends Component {
     const handler = (event) => {
       const wordPosition = event.detail.coord;
       this.setState({
-        corrdinateX: wordPosition.x,
-        corrdinateY: wordPosition.y,
-        corrdinateZ: wordPosition.z,
+        corrdinateX: wordPosition[0],
+        corrdinateY: wordPosition[1],
+        corrdinateZ: wordPosition[2],
       })
       document.body.style.cursor = 'default';
     };
-    await diva.client.addEventListener('click', handler, {
-      once: true
-    });
+    diva.client.addEventListener('click', handler, { once: true });
     document.body.style.cursor = 'crosshair';
   }
 

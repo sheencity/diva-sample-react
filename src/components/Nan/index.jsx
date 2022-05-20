@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import './index.scss'
+import './index.scss';
+
 export default class Nan extends Component {
   render() {
     return (
