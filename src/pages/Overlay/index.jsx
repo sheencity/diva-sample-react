@@ -1,21 +1,20 @@
-import { Emissive, Marker, Model, POI } from '@sheencity/diva-sdk';
-import { Quaternion, Vector3, Euler, deg2rad } from '@sheencity/diva-sdk-math';
-import React, { Component } from 'react';
+import { Emissive, Marker, Model, POI, POIIcon } from '@sheencity/diva-sdk';
+import { deg2rad, Euler, Quaternion, Vector3 } from '@sheencity/diva-sdk-math';
+import { Component } from 'react';
+import deleteImg from '../../assets/icon/overlay/delete.png';
+import ContentBlock from '../../components/ContentBlock';
+import DropDown from '../../components/DropDown';
+import InputNumber from '../../components/InputNumber';
+import { data, diva } from '../../global';
 import {
   EmissionType,
   EmissiveOverlay,
   MarkerOverlay,
   OverlayType,
-  POIIcon,
   POIOverlay
 } from '../../models/overlay.model';
-import './index.scss';
-import deleteImg from '../../assets/icon/overlay/delete.png';
-import ContentBlock from '../../components/ContentBlock';
-import InputNumber from '../../components/InputNumber';
-import DropDown from '../../components/DropDown';
-import { diva, data } from '../../global';
 import { LocalStorageService } from "../../services/localStorage.service";
+import './index.scss';
 
 export default class index extends Component {
 
@@ -120,7 +119,7 @@ export default class index extends Component {
       },
       {
         value: POIIcon.TrafficLight,
-        placeholder: '红路灯'
+        placeholder: '红绿灯'
       },
       {
         value: POIIcon.TrashCan,
@@ -408,7 +407,7 @@ export default class index extends Component {
    */
   pickup = async () => {
     const handler = (event) => {
-      const wordPosition = event.detail.coord;
+      const wordPosition = event.detail.position;
       this.setState({
         corrdinateX: wordPosition[0],
         corrdinateY: wordPosition[1],
