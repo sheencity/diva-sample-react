@@ -8,23 +8,6 @@ export const OverlayType = {
     Emissive: 'emissiveOverlay',
 }
 
-export const POIIcon = {
-    Camera: 'camera',
-    Location: 'location',
-    TrafficLight: 'trafficLight',
-    TrashCan: 'trashCan',
-    StreetLamp: 'streetLamp',
-    BusStation: 'busStation',
-    Exit: 'exit',
-    Restaurant: 'restaurant',
-    Parking: 'parking',
-    Dock: 'dock',
-    Subway: 'subway',
-    Supermarket: 'supermarket',
-    Mall: 'mall',
-    Toilet: 'toilet',
-}
-
 export const EmissionType = {
     type1: '悬浮标记01',
     type2: '圆形区域轮廓02',
