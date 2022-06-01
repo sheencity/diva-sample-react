@@ -8,7 +8,7 @@ export class DivaService {
 
   /**
    * 初始话 webRtc 链接
-   * @param container (HTMLElement) 视频加载的 dom 元素
+   * @param element (HTMLElement) 视频加载的 dom 元素
    */
   async init(element) {
     console.log({ element });
