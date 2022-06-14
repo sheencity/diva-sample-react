@@ -1,4 +1,3 @@
-import { WebRtcAdapter } from '@sheencity/diva-sdk-core';
 import React, { Component, Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { Subject } from 'rxjs';
@@ -33,7 +32,7 @@ export default class App extends Component {
   changeResolution = new Subject();
 
   updateResolution = () => {
-    if (diva.adapter instanceof WebRtcAdapter) {
+    if (!diva.isEmbeddedMode()) {
       const width = this.backendContainer.current.clientWidth;
       const height = this.backendContainer.current.clientHeight;
       diva.client.setResolution({ width, height });
