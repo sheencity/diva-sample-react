@@ -19,6 +19,12 @@ export const EmissionType = {
     type8: '圆形区域轮廓03',
 }
 
+export const POIIconType = {
+    type1: 'POI文字标签',
+    type2: 'POI圆形标签',
+    type3: 'POI水滴',
+}
+
 export class Overlay {
     constructor() {
         this.corrdinateX = 0;
@@ -41,6 +47,7 @@ export class POIOverlay extends Overlay {
         super(...arguments);
         this.type = OverlayType.POI;
         this.icon = '';
+        this.iconType = '';
     }
 }
 

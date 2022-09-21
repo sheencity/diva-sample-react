@@ -11,7 +11,8 @@ import {
   EmissiveOverlay,
   MarkerOverlay,
   OverlayType,
-  POIOverlay
+  POIOverlay,
+  POIIconType
 } from '../../models/overlay.model';
 import { LocalStorageService } from "../../services/localStorage.service";
 import './index.scss';
@@ -62,6 +63,10 @@ export default class index extends Component {
     value: 'camera',
     placeholder: '摄像头',
   };
+  iconTypeInitial = {
+    value: 'POI文字标签',
+    placeholder: 'POI文字标签'
+  };
   selectedAlign = {
     value: 'center',
     placeholder: '居中',
@@ -70,6 +75,11 @@ export default class index extends Component {
     value: POIIcon.Camera,
     placeholder: '摄像头',
   };
+  selectedIconType = {
+    value: POIIconType.type1,
+    placeholder: 'POI文字标签',
+  };
+
   selectedEmissive = {
     value: EmissionType.type1,
     placeholder: '悬浮标记01',
@@ -166,6 +176,19 @@ export default class index extends Component {
         placeholder: '卫生间'
       },
       ],
+      iconTypeOptions: [{
+        value: POIIconType.type1,
+        placeholder: 'POI文字标签'
+      },
+      {
+        value: POIIconType.type2,
+        placeholder: 'POI圆形标签'
+      },
+      {
+        value: POIIconType.type3,
+        placeholder: 'POI水滴'
+      },
+      ],
       emissiveOptions: [{
         value: EmissionType.type1,
         placeholder: '悬浮标记01'
@@ -209,6 +232,7 @@ export default class index extends Component {
     if (this.state.selectedType.value === OverlayType.POI) {
       const overlay = new POIOverlay();
       overlay.icon = this.selectedIcon.value;
+      overlay.iconType = this.selectedIconType.value;
       overlay.corrdinateX = this.state.corrdinateX;
       overlay.corrdinateY = this.state.corrdinateY;
       overlay.corrdinateZ = this.state.corrdinateZ;
@@ -223,7 +247,7 @@ export default class index extends Component {
         opacity: overlay.opacity,
         scale: new Vector3(overlay.scale, overlay.scale, overlay.scale),
         resource: {
-          name: "POI文字标签",
+          name: overlay.iconType,
         },
         coord: new Vector3(
           overlay.corrdinateX,
@@ -364,6 +388,10 @@ export default class index extends Component {
       value: POIIcon.Camera,
       placeholder: '摄像头',
     };
+    this.selectedIconType = {
+      value: POIIconType.type1,
+      placeholder: 'POI文字标签',
+    };
     this.selectedEmissive = {
       value: EmissionType.type1,
       placeholder: '悬浮标记01',
@@ -446,6 +474,10 @@ export default class index extends Component {
   setSelectedIcon = (item) => {
     this.selectedIcon.value = item.value;
     this.selectedIcon.placeholder = item.placeholder;
+  }
+  setSelectedIconType = (item) => {
+    this.selectedIconType.value = item.value;
+    this.selectedIconType.placeholder = item.placeholder;
   }
 
   async componentDidMount() {
@@ -558,10 +590,17 @@ export default class index extends Component {
       </div >
     }
     let iconOption = null;
+    let iconTypeOption = null;
     //判断是否为poi类型
     if (this.state.selectedType.value === 'poi') {
-      iconOption = <div className="drop-item" style={{ marginTop: '12px' }}>
+      iconTypeOption = <div className="drop-item" style={{ marginTop: '12px' }}>
         <span>类型</span>
+        <div>
+          <DropDown key="iconTypeOption" options={this.state.iconTypeOptions} initvalue={this.iconTypeInitial} select={(select) => this.setSelectedIconType(select)} disabled={false} />
+        </div>
+      </div >
+      iconOption = <div className="drop-item" style={{ marginTop: '12px' }}>
+        <span>图标</span>
         <div>
           <DropDown key="iconOption" options={this.state.iconOptions} initvalue={this.iconInitial} select={(select) => this.setSelectedIcon(select)} disabled={false} />
         </div>
@@ -604,6 +643,7 @@ export default class index extends Component {
           {emissiveOverlayContent}
           {markerAlign}
           {emissiveOverlayOption}
+          {iconTypeOption}
           {iconOption}
           <div className="input-item">
             <span>颜色</span>
