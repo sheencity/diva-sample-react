@@ -5,7 +5,6 @@ export default class ContentBlock extends Component {
     state = {
         hideOptions: true,
     }
-    initvalue = this.props.initvalue;
     onBlur = (event) => {
         event.stopPropagation();
         if (!this.state.hideOptions) {
@@ -31,7 +30,6 @@ export default class ContentBlock extends Component {
         this.setState({
             hideOptions: true,
         })
-        this.initvalue = option;
         this.props.select(option);
     }
     render() {
@@ -46,7 +44,7 @@ export default class ContentBlock extends Component {
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a className="select">
                 <p className={this.props.disabled ? 'select-disabled' : null} style={{ margin: 0, userSelect: 'none' }}>
-                    <input type="text" className="placeholder" disabled={this.props.disabled} value={this.initvalue.placeholder} readOnly
+                    <input type="text" className="placeholder" disabled={this.props.disabled} value={this.props.selectedItem?.placeholder || ''} readOnly
                         onBlur={this.onBlur} onKeyDown={this.onKeyDown} onClick={this.onClick} />
                     <img alt="" className={['arrow-down', this.state.hideOptions ? null : 'activity'].join(' ')} width={9} height={6}
                         src={this.props.disabled ? require('../../assets/arrow-down-disabled.svg').default : require('../../assets/arrow-down.svg').default } />

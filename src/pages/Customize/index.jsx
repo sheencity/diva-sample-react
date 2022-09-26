@@ -7,84 +7,83 @@ import ContentBlock from '../../components/ContentBlock';
 import DropDown from '../../components/DropDown';
 
 export default class index extends Component {
-
-  lifts = [{
-    title: '一号梯',
-  },
-  {
-    title: '二号梯',
-  },
-  {
-    title: '三号梯',
-  },
-  {
-    title: '四号梯',
-  },
+  options = [
+    {
+      value: '1',
+      placeholder: '1',
+    },
+    {
+      value: '2',
+      placeholder: '2',
+    },
+    {
+      value: '3',
+      placeholder: '3',
+    },
+    {
+      value: '4',
+      placeholder: '4',
+    },
+    {
+      value: '5',
+      placeholder: '5',
+    },
+    {
+      value: '6',
+      placeholder: '6',
+    },
+    {
+      value: '7',
+      placeholder: '7',
+    },
+    {
+      value: '8',
+      placeholder: '8',
+    },
+    {
+      value: '9',
+      placeholder: '9',
+    },
+    {
+      value: '10',
+      placeholder: '10',
+    },
+    {
+      value: '11',
+      placeholder: '11',
+    },
+    {
+      value: '12',
+      placeholder: '12',
+    },
   ];
-  options = [{
-    value: '1',
-    placeholder: '1'
-  },
-  {
-    value: '2',
-    placeholder: '2'
-  },
-  {
-    value: '3',
-    placeholder: '3'
-  },
-  {
-    value: '4',
-    placeholder: '4'
-  },
-  {
-    value: '5',
-    placeholder: '5'
-  },
-  {
-    value: '6',
-    placeholder: '6'
-  },
-  {
-    value: '7',
-    placeholder: '7'
-  },
-  {
-    value: '8',
-    placeholder: '8'
-  },
-  {
-    value: '9',
-    placeholder: '9'
-  },
-  {
-    value: '10',
-    placeholder: '10'
-  },
-  {
-    value: '11',
-    placeholder: '11'
-  },
-  {
-    value: '12',
-    placeholder: '12'
-  },
-  ];
-  initvalue = {
-    value: '1',
-    placeholder: '1'
-  };
   liftModels = [];
   controllers = [];
   currentLift = [1, 1, 1, 1];
   step = 299.7;
-  state = { checked: false };
+  state = {
+    checked: false,
+    lifts: [
+      {
+        title: '一号梯',
+      },
+      {
+        title: '二号梯',
+      },
+      {
+        title: '三号梯',
+      },
+      {
+        title: '四号梯',
+      },
+    ],
+  };
 
-  selectLift = async (option,i) => {
+  selectLift = async (option, i) => {
     const value = Number(option.value);
     this.controllers[i].land(`f${value}`);
     data.changeCode(`elevatorController.land('f${value}')`);
-  }
+  };
   addSelected = (lift, i) => {
     let selected = {
       value: this.currentLift[i].toString(),
@@ -92,22 +91,21 @@ export default class index extends Component {
     };
     return {
       ...lift,
-      selected
+      selected,
     };
-  }
-  
+  };
+
   async componentDidMount() {
     diva.client.applyScene('电梯演示');
     data.changeCode(`client.applyScene('电梯演示')`);
-    this.lifts = this.lifts.map((lift, index) => this.addSelected(lift, index));
+    const lifts = this.state.lifts.map((lift, index) => this.addSelected(lift, index));
+    this.setState({ lifts });
     for (let i = 0; i < 4; i++) {
       /**
        * @type {import("@sheencity/diva-sdk").Model}
        */
       let model;
-      [model] = await diva.client.getEntitiesByName(
-        this.lifts[i].title
-      );
+      [model] = await diva.client.getEntitiesByName(this.state.lifts[i].title);
       const coord = await model.getCoordinate();
       const controller = new ElevatorController({
         // 初始化电梯控制器
@@ -138,23 +136,32 @@ export default class index extends Component {
   }
 
   render() {
-    const liftArr = this.lifts.map((lift, i) =>
+    const liftArr = this.state.lifts.map((lift, i) => (
       <div key={lift.title} className="drop-block">
         <div className="drop-item">
           <span>{lift.title}</span>
           <div>
-            <DropDown options={this.options} initvalue={this.initvalue} disable={false} type={i} select={(option) => { this.selectLift(option,i) }} disabled={false} />
+            <DropDown
+              options={this.options}
+              selectedItem={lift.selected}
+              disable={false}
+              type={i}
+              select={(option) => {
+                this.selectLift(option, i);
+              }}
+              disabled={false}
+            />
             <span style={{ marginLeft: '4px' }}>层</span>
           </div>
         </div>
       </div>
-    )
+    ));
 
     return (
       <div className="cus-main">
         <ContentBlock caption="数字孪生电梯演示" />
         {liftArr}
       </div>
-    )
+    );
   }
 }
