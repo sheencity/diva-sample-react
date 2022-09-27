@@ -290,7 +290,7 @@ export default class index extends Component {
       );
     } else if (this.state.selectedType.value === OverlayType.Emissive) {
       const overlay = new EmissiveOverlay();
-      overlay.icon = this.selectedEmissive.value;
+      overlay.icon = this.state.selectedEmissive.value;
       overlay.corrdinateX = this.state.corrdinateX;
       overlay.corrdinateY = this.state.corrdinateY;
       overlay.corrdinateZ = this.state.corrdinateZ;

@@ -80,6 +80,10 @@ export default class index extends Component {
   };
 
   selectLift = async (option, i) => {
+    this.currentLift[i] = option.value;
+    this.setState({
+      lifts: this.state.lifts.map(((lift, i) => this.addSelected(lift, i)))
+    });
     const value = Number(option.value);
     this.controllers[i].land(`f${value}`);
     data.changeCode(`elevatorController.land('f${value}')`);
