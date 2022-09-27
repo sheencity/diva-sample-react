@@ -113,10 +113,12 @@ export default class index extends Component {
     const [model] = await diva.client.getEntitiesByName(equipment.title);
     if (!model || !event.value) return;
     const type = event.value;
-    let code = `model.setRenderingStyleMode(RenderingStyleMode.${type.slice(0, 1).toUpperCase() + type.slice(1)}`;
+    let code = `model.setRenderingStyleMode(RenderingStyleMode.${
+      type.slice(0, 1).toUpperCase() + type.slice(1)
+    }`;
     if (type === RenderingStyleMode.Emission) {
       model.setRenderingStyleMode(type, {
-        color: '#20fdfa99',
+        color: "#20fdfa99",
         strength: 0.2,
       });
       code += `, { color: '#20fdfa99', strength: 0.2 })`;
