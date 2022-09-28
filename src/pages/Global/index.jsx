@@ -10,6 +10,13 @@ import Switcher from '../../components/Switcher'
 
 export default class index extends Component {
 
+  state = {
+    selectedMode: {
+      value: "false",
+      placeholder: "飞行",
+    }
+  }
+
   options = [{
     value: "false",
     placeholder: "飞行",
@@ -19,10 +26,6 @@ export default class index extends Component {
     placeholder: "人视",
   },
   ]
-  initvalue = {
-    value: "false",
-    placeholder: "飞行",
-  }
 
   select = (v) => {
     diva.client.setMovementMode(
@@ -35,6 +38,7 @@ export default class index extends Component {
       v.value == "true" ? "MovementMode.ThirdPerson" : "MovementMode.Fly"
       })`
     );
+    this.setState({ selectedMode: v });
   }
 
   swit = (v) => {
@@ -98,7 +102,7 @@ export default class index extends Component {
             <div className="drop-item">
               <span>模式</span>
               <div>
-                <DropDown options={this.options} initvalue={this.initvalue} disable={false} select={(option) => { this.select(option) }} />
+                <DropDown options={this.options} selectedItem={this.state.selectedMode} disable={false} select={(option) => { this.select(option) }} />
               </div>
             </div>
             <div className="switch-item">

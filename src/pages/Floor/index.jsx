@@ -78,22 +78,17 @@ export default class index extends Component {
     pipeLineName: "顶层管线"
   },
   ]
-  initial = {
-    placeholder: "1",
-    value: "一层-1_1",
-    pipeLineName: "一层管线",
-  }
   models = []
   pipeModels = []
-  selectedFloor = {
-    placeholder: "1",
-    value: "一层-1_1",
-  }
   group$ = new Observable()
   state = {
     explode: false,
     gradation: false,
     pipe: false,
+    selectedFloor: {
+      placeholder: "1",
+      value: "一层-1_1",
+    },
   }
 
   explodef = (val) => {
@@ -126,7 +121,7 @@ export default class index extends Component {
     })
     if (v) {
       // 聚焦到已选中的层数
-      this.focusFloor(Number(this.selectedFloor.placeholder));
+      this.focusFloor(Number(this.state.selectedFloor.placeholder));
       this.pipef(false);
     } else {
       this.setVisibility(this.models, true, true);
@@ -141,7 +136,7 @@ export default class index extends Component {
     // 聚焦到已选中的层数
     this.focusFloor(Number(v.placeholder));
     // 此处设置层数
-    this.selectedFloor = v;
+    this.setState({ selectedFloor: v });
   }
 
   pipef = (v) => {
@@ -149,13 +144,13 @@ export default class index extends Component {
       return;
     }
     this.setState({
-      pipe: v
+      pipe: v,
     })
     // 此处设置显示管线
     const currentPipe = this.pipeModels.filter(
       (pipeModel) =>
         pipeModel.name ===
-        this.options[Number(this.selectedFloor.placeholder) - 1].pipeLineName
+        this.options[Number(this.state.selectedFloor.placeholder) - 1].pipeLineName
     );
     if (this.state.gradation && v) {
       this.setVisibility(currentPipe, true);
@@ -268,7 +263,7 @@ export default class index extends Component {
             <div className="drop-item">
               <span>聚焦楼层</span>
               <div>
-                <DropDown options={this.options} initvalue={this.initial} select={(selected) => { this.selectf(selected) }} disabled={!this.state.gradation} />
+                <DropDown options={this.options} selectedItem={this.state.selectedFloor} select={(selected) => { this.selectf(selected) }} disabled={!this.state.gradation} />
                 <span style={{ marginLeft: '4px' }}>层</span>
               </div>
             </div>

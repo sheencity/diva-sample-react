@@ -8,25 +8,6 @@ import DropDown from '../../components/DropDown'
 import { RenderingStyleMode } from '@sheencity/diva-sdk';
 
 export default class index extends Component {
-
-  equipments = [{
-    title: "空调",
-    state: RenderingStyleMode.Default,
-  },
-  {
-    title: "电视机",
-    state: RenderingStyleMode.Default,
-  },
-  {
-    title: "路由器",
-    state: RenderingStyleMode.Default,
-  },
-  {
-    title: "冰箱",
-    state: RenderingStyleMode.Default,
-  },
-  ]
-
   options = [{
     value: RenderingStyleMode.Default,
     placeholder: "默认"
@@ -52,13 +33,25 @@ export default class index extends Component {
   //   placeholder: "隐藏"
   // },
   ]
-
-  initial = {
-    value: RenderingStyleMode.Default,
-    placeholder: "默认"
-  }
   state = {
-    selected: null
+    selected: null,
+    equipments: [{
+        title: "空调",
+        state: RenderingStyleMode.Default,
+      },
+      {
+        title: "电视机",
+        state: RenderingStyleMode.Default,
+      },
+      {
+        title: "路由器",
+        state: RenderingStyleMode.Default,
+      },
+      {
+        title: "冰箱",
+        state: RenderingStyleMode.Default,
+      },
+    ],
   }
 
   addSelected = (equipment) => {
@@ -114,6 +107,9 @@ export default class index extends Component {
   }
 
   onChange = async (event, equipment) => {
+    this.setState({
+      equipments: this.state.equipments.map((e) => (e.title === equipment.title ? { ...e, selected: event } : e)),
+    });
     const [model] = await diva.client.getEntitiesByName(equipment.title);
     if (!model || !event.value) return;
     const type = event.value;
@@ -136,6 +132,9 @@ export default class index extends Component {
     diva.client.applyScene("状态演示").then(() => {
       data.changeCode(`client.applyScene('状态演示')`);
     });
+    const equipments = this.state.equipments.map((equipment) => this.addSelected(equipment));
+    this.setState({ equipments });
+    
     const highlightStyleOpt = {
       color: '#20fdfa99',
       border: {
@@ -146,20 +145,19 @@ export default class index extends Component {
     diva.client.setHighlightStyle(highlightStyleOpt);
   }
   componentWillUnmount() {
-    this.equipments.forEach(async (equi) => {
+    this.state.equipments.forEach(async (equi) => {
       const [model] = await diva.client.getEntitiesByName(equi.title);
       model.setRenderingStyleMode(RenderingStyleMode.Default);
     });
   }
   render() {
-    this.equipments = this.equipments.map((equipment) => this.addSelected(equipment))
-    const equipmentArr = this.equipments.map((equipment, i) => {
+    const equipmentArr = this.state.equipments.map((equipment, i) => {
       return (
         <div key={equipment.title} className="drop-block">
           <div className={['drop-item', this.state.selected === i ? 'selected' : null].join(' ')}>
             <span>{equipment.title}</span>
             <div className="drop-down">
-              <DropDown options={this.options} initvalue={this.initial} disabled={false} select={(event) => this.onChange(event, equipment)} />
+              <DropDown options={this.options} selectedItem={equipment.selected} disabled={false} select={(event) => this.onChange(event, equipment)} />
             </div>
           </div>
         </div>

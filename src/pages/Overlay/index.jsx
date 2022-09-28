@@ -11,7 +11,8 @@ import {
   EmissiveOverlay,
   MarkerOverlay,
   OverlayType,
-  POIOverlay
+  POIOverlay,
+  POIIconType
 } from '../../models/overlay.model';
 import { LocalStorageService } from "../../services/localStorage.service";
 import './index.scss';
@@ -28,6 +29,22 @@ export default class index extends Component {
     selectedType: {
       value: OverlayType.POI,
       placeholder: 'POI',
+    },
+    selectedAlign: {
+      value: 'center',
+      placeholder: '居中',
+    },
+    selectedIcon: {
+      value: POIIcon.Camera,
+      placeholder: '摄像头',
+    },
+    selectedIconType: {
+      value: POIIconType.type1,
+      placeholder: 'POI文字标签',
+    },
+    selectedEmissive: {
+      value: EmissionType.type1,
+      placeholder: '悬浮标记01',
     },
     content: "",
     title: "",
@@ -46,34 +63,6 @@ export default class index extends Component {
     overlays: []
   }
   store = new LocalStorageService()
-  typeInitial = {
-    value: 'poi',
-    placeholder: 'POI',
-  };
-  alignInitial = {
-    value: 'center',
-    placeholder: '居中',
-  };
-  emissiveInitial = {
-    value: '悬浮标记01',
-    placeholder: '悬浮标记01',
-  };
-  iconInitial = {
-    value: 'camera',
-    placeholder: '摄像头',
-  };
-  selectedAlign = {
-    value: 'center',
-    placeholder: '居中',
-  };
-  selectedIcon = {
-    value: POIIcon.Camera,
-    placeholder: '摄像头',
-  };
-  selectedEmissive = {
-    value: EmissionType.type1,
-    placeholder: '悬浮标记01',
-  };
 
   switchScene = (scene) => {
     diva.client.applyScene(scene.index).then(() => {
@@ -166,6 +155,19 @@ export default class index extends Component {
         placeholder: '卫生间'
       },
       ],
+      iconTypeOptions: [{
+        value: POIIconType.type1,
+        placeholder: 'POI文字标签'
+      },
+      {
+        value: POIIconType.type2,
+        placeholder: 'POI圆形标签'
+      },
+      {
+        value: POIIconType.type3,
+        placeholder: 'POI水滴'
+      },
+      ],
       emissiveOptions: [{
         value: EmissionType.type1,
         placeholder: '悬浮标记01'
@@ -208,7 +210,8 @@ export default class index extends Component {
   create = async () => {
     if (this.state.selectedType.value === OverlayType.POI) {
       const overlay = new POIOverlay();
-      overlay.icon = this.selectedIcon.value;
+      overlay.icon = this.state.selectedIcon.value;
+      overlay.iconType = this.state.selectedIconType.value;
       overlay.corrdinateX = this.state.corrdinateX;
       overlay.corrdinateY = this.state.corrdinateY;
       overlay.corrdinateZ = this.state.corrdinateZ;
@@ -223,7 +226,7 @@ export default class index extends Component {
         opacity: overlay.opacity,
         scale: new Vector3(overlay.scale, overlay.scale, overlay.scale),
         resource: {
-          name: "POI文字标签",
+          name: overlay.iconType,
         },
         coord: new Vector3(
           overlay.corrdinateX,
@@ -248,7 +251,7 @@ export default class index extends Component {
       overlay.corrdinateZ = this.state.corrdinateZ;
       overlay.title = this.state.title;
       overlay.content = this.state.content;
-      overlay.align = this.selectedAlign.value;
+      overlay.align = this.state.selectedAlign.value;
       overlay.color = this.state.color;
       overlay.scale = this.state.scale;
       overlay.opacity = this.state.opacity;
@@ -287,7 +290,7 @@ export default class index extends Component {
       );
     } else if (this.state.selectedType.value === OverlayType.Emissive) {
       const overlay = new EmissiveOverlay();
-      overlay.icon = this.selectedEmissive.value;
+      overlay.icon = this.state.selectedEmissive.value;
       overlay.corrdinateX = this.state.corrdinateX;
       overlay.corrdinateY = this.state.corrdinateY;
       overlay.corrdinateZ = this.state.corrdinateZ;
@@ -360,18 +363,6 @@ export default class index extends Component {
    * 创建覆盖物之后重置所有配置
    */
   reset = () => {
-    this.selectedIcon = {
-      value: POIIcon.Camera,
-      placeholder: '摄像头',
-    };
-    this.selectedEmissive = {
-      value: EmissionType.type1,
-      placeholder: '悬浮标记01',
-    };
-    this.selectedAlign = {
-      value: 'center',
-      placeholder: '居中',
-    };
     this.setState({
       corrdinateX: 0.0,
       corrdinateY: 0.0,
@@ -388,6 +379,22 @@ export default class index extends Component {
       borderColor: '#ffffff',
       emission: 1.0,
       speed: 2.0,
+      selectedIcon: {
+        value: POIIcon.Camera,
+        placeholder: '摄像头',
+      },
+      selectedIconType: {
+        value: POIIconType.type1,
+        placeholder: 'POI文字标签',
+      },
+      selectedEmissive: {
+        value: EmissionType.type1,
+        placeholder: '悬浮标记01',
+      },
+      selectedAlign: {
+        value: 'center',
+        placeholder: '居中',
+      },
     })
   }
   /**
@@ -436,16 +443,24 @@ export default class index extends Component {
     })
   }
   setSelectedAlign = (item) => {
-    this.selectedAlign.value = item.value;
-    this.selectedAlign.placeholder = item.placeholder;
+    this.setState({
+      selectedAlign: item
+    })
   }
   setSelectedEmissive = (item) => {
-    this.selectedEmissive.value = item.value;
-    this.selectedEmissive.placeholder = item.placeholder;
+    this.setState({
+      selectedEmissive: item
+    })
   }
   setSelectedIcon = (item) => {
-    this.selectedIcon.value = item.value;
-    this.selectedIcon.placeholder = item.placeholder;
+    this.setState({
+      selectedIcon: item
+    })
+  }
+  setSelectedIconType = (item) => {
+    this.setState({
+      selectedIconType: item
+    })
   }
 
   async componentDidMount() {
@@ -499,7 +514,7 @@ export default class index extends Component {
       markerAlign = <div className="drop-item" style={{ marginTop: '12px' }} >
         <span>对齐方式</span>
         <div>
-          <DropDown key="markerAlign" options={this.state.alignOptions} initvalue={this.alignInitial} select={(select) => this.setSelectedAlign(select)} disabled={false} />
+          <DropDown key="markerAlign" options={this.state.alignOptions} selectedItem={this.state.selectedAlign} select={(select) => this.setSelectedAlign(select)} disabled={false} />
         </div>
       </div >
       markerBorderColor = <div className="input-item">
@@ -531,7 +546,7 @@ export default class index extends Component {
       emissiveOverlayOption = <div className="drop-item" style={{ marginTop: '12px' }}>
         <span>类型</span>
         <div>
-          <DropDown key="emissiveOverlayOption" options={this.state.emissiveOptions} initvalue={this.emissiveInitial} select={(select) => this.setSelectedEmissive(select)} disabled={false} />
+          <DropDown key="emissiveOverlayOption" options={this.state.emissiveOptions} selectedItem={this.state.selectedEmissive} select={(select) => this.setSelectedEmissive(select)} disabled={false} />
         </div>
       </div >
       emissiveOverlayRotation = <div className="input-item">
@@ -558,12 +573,19 @@ export default class index extends Component {
       </div >
     }
     let iconOption = null;
+    let iconTypeOption = null;
     //判断是否为poi类型
     if (this.state.selectedType.value === 'poi') {
-      iconOption = <div className="drop-item" style={{ marginTop: '12px' }}>
+      iconTypeOption = <div className="drop-item" style={{ marginTop: '12px' }}>
         <span>类型</span>
         <div>
-          <DropDown key="iconOption" options={this.state.iconOptions} initvalue={this.iconInitial} select={(select) => this.setSelectedIcon(select)} disabled={false} />
+          <DropDown key="iconTypeOption" options={this.state.iconTypeOptions} selectedItem={this.state.selectedIconType} select={(select) => this.setSelectedIconType(select)} disabled={false} />
+        </div>
+      </div >
+      iconOption = <div className="drop-item" style={{ marginTop: '12px' }}>
+        <span>图标</span>
+        <div>
+          <DropDown key="iconOption" options={this.state.iconOptions} selectedItem={this.state.selectedIcon} select={(select) => this.setSelectedIcon(select)} disabled={false} />
         </div>
       </div >
     }
@@ -576,7 +598,7 @@ export default class index extends Component {
           <div className="drop-item">
             <span>种类</span>
             <div>
-              <DropDown key="typeOptions" options={this.state.typeOptions} initvalue={this.typeInitial} select={(select) => this.setSelectedType(select)} disable={false} />
+              <DropDown key="typeOptions" options={this.state.typeOptions} selectedItem={this.state.selectedType} select={(select) => this.setSelectedType(select)} disable={false} />
             </div>
           </div>
           <div className="btn-item">
@@ -604,6 +626,7 @@ export default class index extends Component {
           {emissiveOverlayContent}
           {markerAlign}
           {emissiveOverlayOption}
+          {iconTypeOption}
           {iconOption}
           <div className="input-item">
             <span>颜色</span>
